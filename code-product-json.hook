@@ -1,0 +1,12 @@
+# /etc/pacman.d/hooks/code-product-json.hook
+
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = code
+Target = code-features
+
+[Action]
+Description = Copying product.json from code-features to code
+When = PostTransaction
+Exec = /usr/bin/cp /usr/share/code-features/resources/app/product.json /usr/share/code/resources/app/product.json
