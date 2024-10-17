@@ -1,0 +1,12 @@
+[Unit]
+Description=Bluetooth fix for btusb issue
+After=graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/rmmod btusb
+ExecStartPost=/usr/bin/modprobe btusb
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
