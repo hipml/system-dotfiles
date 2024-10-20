@@ -3,6 +3,10 @@
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+export VDPAU_DRIVER=va_gl
+export LIBVA_DRIVER_NAME=iHD
+export GDK_BACKEND=wayland
+export QT_QPA_PLATFORM=wayland
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
