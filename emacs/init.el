@@ -1,0 +1,42 @@
+(require 'package)
+(setq package-enable-at-startup nil)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+;; enable line numbers
+(global-display-line-numbers-mode t)
+
+;; python
+(use-package python 
+    :ensure nil
+    :hook (python-mode . (lambda ()
+                            (setq indent-tabs-mode nil)
+                            (setq python-indent 4))))
+
+(use-package elpy
+    :init 
+    (elpy-enable))
+
+(use-package ein
+    :after (python)
+    :config
+    (setq ein:use-auto-completion t))
+
+(use-package org
+    :config
+    (setq org-log-done 'time)
+    (setq org-agenda-files '("~/Documents/org/agenda.org"))
+    (setq org-hide-leading-stars t)
+    (setq org-startup-indented t) ; indent headlines
+)
+
+(set-face-attribute 'default nil :height 120)
