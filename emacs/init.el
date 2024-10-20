@@ -53,6 +53,12 @@
     (evil-mode 1)
 )
 
+;; custom themes
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(message "Custom theme load path: %s" custom-theme-load-path)
+(load-theme 'kod-adjusted t)
+
+
 (set-face-attribute 'default nil :height 120)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

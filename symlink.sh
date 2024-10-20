@@ -12,18 +12,31 @@ LINKS=(
   "$DOTFILES_DIR/services/my-bluetooth-fix.service:/etc/systemd/system/my-bluetooth-fix.service"
 )
 
+for theme_file in "$DOTFILES_DIR/emacs/themes/"*.el; do
+  theme_name=$(basename "$theme_file")
+  LINKS+=("$theme_file:$HOME/.emacs.d/themes/$theme_name")
+done
+
 create_symlink() {
   local SRC="$1"
   local DEST="$2"
 
   if [ -e "$DEST" ] || [ -L "$DEST" ]; then
     echo "Backing up existing $DEST"
-    sudo mv "$DEST" "$DEST.backup.$(date +%Y%m%d%H%M%S)"
+    if [[ "$DEST" == /etc/* ]]; then
+      sudo mv "$DEST" "$DEST.backup.$(date +%Y%m%d%H%M%S)"
+    else
+      mv "$DEST" "$DEST.backup.$(date +%Y%m%d%H%M%S)"
+    fi
   fi
 
-  sudo mkdir -p "$(dirname "$DEST")"
-
-  sudo ln -s "$SRC" "$DEST"
+  if [[ "$DEST" == /etc/* ]]; then
+    sudo mkdir -p "$(dirname "$DEST")"
+    sudo ln -s "$SRC" "$DEST"
+  else
+    mkdir -p "$(dirname "$DEST")"
+    ln -s "$SRC" "$DEST"
+  fi
   echo "Linked $SRC to $DEST"
 }
 
@@ -31,15 +44,5 @@ for link in "${LINKS[@]}"; do
   SRC="${link%%:*}"
   DEST="${link##*:}"
 
-  if [[ "$DEST" == /etc/* ]]; then
-    create_symlink "$SRC" "$DEST"
-  else
-    if [ -e "$DEST" ] || [ -L "$DEST" ]; then
-      echo "Backing up existing $DEST"
-      mv "$DEST" "$DEST.backup.$(date +%Y%m%d%H%M%S)"
-    fi
-    mkdir -p "$(dirname "$DEST")"
-    ln -s "$SRC" "$DEST"
-    echo "Linked $SRC to $DEST"
-  fi
+  create_symlink "$SRC" "$DEST"
 done
