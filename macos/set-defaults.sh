@@ -1,8 +1,3 @@
-# Sets some defaults for OS X
-#
-# Shamelessly stolen from GitHub user @holman's dotfiles
-#
-# Run ./set-defaults.sh
 
 # Show ~Library folder
 chflags nohidden ~/Library
