@@ -10,6 +10,7 @@ LINKS=(
   "$DOTFILES_DIR/zsh/.zshrc:$HOME/.zshrc"
   "$DOTFILES_DIR/hooks/code-product-json.hook:/etc/pacman.d/hooks/code-product-json.hook"
   "$DOTFILES_DIR/services/my-bluetooth-fix.service:/etc/systemd/system/my-bluetooth-fix.service"
+  "$DOTFILES_DIR/kernel/psmouse.conf:/etc/modprobe.d/psmouse.conf"
 )
 
 for theme_file in "$DOTFILES_DIR/emacs/themes/"*.el; do
