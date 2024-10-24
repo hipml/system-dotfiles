@@ -12,6 +12,7 @@ LINKS=(
   "$DOTFILES_DIR/services/my-bluetooth-fix.service:/etc/systemd/system/my-bluetooth-fix.service"
   "$DOTFILES_DIR/kernel/psmouse.conf:/etc/modprobe.d/psmouse.conf"
   "$DOTFILES_DIR/udev/90-backlight.rules:/etc/udev/rules.d/90-backlight.rules"
+  "$DOTFILES_DIR/pam/ssdm:/etc/pam.d/sddm"
 )
 
 for theme_file in "$DOTFILES_DIR/emacs/themes/"*.el; do
