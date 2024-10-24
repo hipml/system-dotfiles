@@ -6,8 +6,8 @@
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
@@ -36,15 +36,15 @@
 
 ;; org mode 
 (use-package org
-    :config
-    (setq org-log-done 'time)
-    (setq org-agenda-files '("~/Documents/org/agenda.org"))
-    (setq org-hide-leading-stars t)
-    (setq org-startup-indented t) ; indent headlines
+  :config
+  (setq org-log-done 'time)
+  (setq org-agenda-files '("~/Documents/org/agenda.org"))
+  (setq org-hide-leading-stars t)
+  (setq org-startup-indented t) ; indent headlines
 
-    (global-set-key (kbd "C-c l") #'org-store-link)
-    (global-set-key (kbd "C-c a") #'org-agenda)
-    (global-set-key (kbd "C-c c") #'org-capture))
+  (global-set-key (kbd "C-c l") #'org-store-link)
+  (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-c c") #'org-capture))
 
 ;; set default Org-mode file extension
 (setq org-file-apps '((auto-mode . emacs)
@@ -62,29 +62,30 @@
 
 ;; python
 (use-package python 
-    :ensure nil
-    :hook (python-mode . (lambda ()
-                            (setq indent-tabs-mode nil)
-                            (setq python-indent 4))))
+  :ensure nil
+  :hook (python-mode . (lambda ()
+                         (setq indent-tabs-mode nil)
+                         (setq python-indent 4))))
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
 (use-package elpy
-    :init 
-    (elpy-enable))
+  :init 
+  (elpy-enable))
 
 (use-package ein
-    :after (python)
-    :config
-    (setq ein:use-auto-completion t))
+  :after (python)
+  :config
+  (setq ein:use-auto-completion t))
 
 (use-package magit
-    :ensure t)
+  :ensure t)
 
 (use-package evil
-    :init
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-integration t)
+  :ensure t
+  :init
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-integration t)
 
-    :config
-    (evil-mode 1))
+  :config
+  (evil-mode 0))
