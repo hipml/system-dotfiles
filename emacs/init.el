@@ -12,8 +12,53 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; default font
+(set-face-attribute 'default nil :family "Monospace" :height 100)
+
+;; default size
+(add-to-list 'default-frame-alist '(width . 120)) 
+(add-to-list 'default-frame-alist '(height . 25))
+
 ;; enable line numbers
 (global-display-line-numbers-mode t)
+
+;; custom themes
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+
+;; load my theme
+(load-theme 'kod-adjusted t)
+
+;; set line wrapping
+(setq-default truncate-lines t)
+
+;; tab width
+(setq-default tab-width 4)
+
+;; org mode 
+(use-package org
+    :config
+    (setq org-log-done 'time)
+    (setq org-agenda-files '("~/Documents/org/agenda.org"))
+    (setq org-hide-leading-stars t)
+    (setq org-startup-indented t) ; indent headlines
+
+    (global-set-key (kbd "C-c l") #'org-store-link)
+    (global-set-key (kbd "C-c a") #'org-agenda)
+    (global-set-key (kbd "C-c c") #'org-capture))
+
+;; set default Org-mode file extension
+(setq org-file-apps '((auto-mode . emacs)
+                      ("\\.org\\'" . emacs)))
+
+;; set default Org-mode agenda view
+(setq org-agenda-default-view 'agenda)
+
+;; set default Org-mode capture template
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/Documents/org/agenda.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("n" "Note" entry (file+headline "~/Documents/org/agenda.org" "Notes")
+         "* %? :NOTE:\n  %i\n  %a")))
 
 ;; python
 (use-package python 
@@ -33,14 +78,6 @@
     :config
     (setq ein:use-auto-completion t))
 
-(use-package org
-    :config
-    (setq org-log-done 'time)
-    (setq org-agenda-files '("~/Documents/org/agenda.org"))
-    (setq org-hide-leading-stars t)
-    (setq org-startup-indented t) ; indent headlines
-)
-
 (use-package magit
     :ensure t)
 
@@ -50,25 +87,4 @@
     (setq evil-want-integration t)
 
     :config
-    (evil-mode 1)
-)
-
-;; custom themes
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(message "Custom theme load path: %s" custom-theme-load-path)
-(load-theme 'kod-adjusted t)
-
-
-(set-face-attribute 'default nil :height 120)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(ein elpy)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+    (evil-mode 1))
