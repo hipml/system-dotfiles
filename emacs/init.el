@@ -109,6 +109,28 @@
 ;; global
 (global-tree-sitter-mode)
 
+;; major mode for ocaml
+(use-package tuareg
+  :ensure t
+  :mode (("\\.ocamlinit\\'" . tuareg-mode)))
+
+(use-package merlin
+  :ensure t
+  :config
+  (add-hook 'tuareg-mode-hook #'merlin-mode)
+  (add-hook 'merlin-mode-hook #'company-mode)
+  ;; we're using flycheck instead
+  (setq merlin-error-after-save nil))
+
+(use-package merlin-eldoc
+  :ensure t
+  :hook ((tuareg-mode) . merlin-eldoc-setup))
+
+(use-package flycheck-ocaml
+  :ensure t
+  :config
+  (flycheck-ocaml-setup))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -116,9 +138,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("536622b90022666ba1ed1de27535fc79a8a2d0d03c8e7dd4a66872cb225e3bd9" "c30f1ac361bc0025b677e82de3b4a454f77b3abb6542278650e471dd80a6e36a" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "52526fdb0eafd76fdc1963a87a30bd38f70673407646ae13b72561b503dc6f69" "a4c78d5d55160c9a719a36724dba8e428958470dd7952ab0b7b715efd006f6f4" "8bf1e0be927767ae05d4035ee68f54998b112d548494676ec8d1d1b77e43c808" "1d8ed1460acd9d6352b46379ca6463e14b560ce659fb07ac1e808e19834ba798" default))
+   '("cd3a935a8ffa314b540e05877c97fc4651f62300f9f89d6e9e7ca822a4d591f2" "c0fe46c2c91bda132c98f1f882a83ee263335a3c934d10f0db96c7dbccb7c8a0" "536622b90022666ba1ed1de27535fc79a8a2d0d03c8e7dd4a66872cb225e3bd9" "c30f1ac361bc0025b677e82de3b4a454f77b3abb6542278650e471dd80a6e36a" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "52526fdb0eafd76fdc1963a87a30bd38f70673407646ae13b72561b503dc6f69" "a4c78d5d55160c9a719a36724dba8e428958470dd7952ab0b7b715efd006f6f4" "8bf1e0be927767ae05d4035ee68f54998b112d548494676ec8d1d1b77e43c808" "1d8ed1460acd9d6352b46379ca6463e14b560ce659fb07ac1e808e19834ba798" default))
  '(package-selected-packages
-   '(tree-sitter-langs tree-sitter treesitter magit evil elpy ein)))
+   '(flycheck-ocaml merlin-eldoc merlin tuareg tree-sitter-langs tree-sitter treesitter magit evil elpy ein)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
