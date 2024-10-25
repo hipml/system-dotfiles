@@ -2,7 +2,7 @@
 
 DOTFILES_DIR="$HOME/code/system-dotfiles"
 
-LINKS=(
+LINKS_COMMON=(
   "$DOTFILES_DIR/emacs/init.el:$HOME/.emacs.d/init.el"
   "$DOTFILES_DIR/vim/.vimrc:$HOME/.vimrc"
   "$DOTFILES_DIR/vim/init.vim:$HOME/.config/nvim/init.vim"
@@ -10,10 +10,19 @@ LINKS=(
   "$DOTFILES_DIR/zsh/.zshrc:$HOME/.zshrc"
   "$DOTFILES_DIR/hooks/code-product-json.hook:/etc/pacman.d/hooks/code-product-json.hook"
   "$DOTFILES_DIR/services/my-bluetooth-fix.service:/etc/systemd/system/my-bluetooth-fix.service"
-  "$DOTFILES_DIR/kernel/psmouse.conf:/etc/modprobe.d/psmouse.conf"
-  "$DOTFILES_DIR/udev/90-backlight.rules:/etc/udev/rules.d/90-backlight.rules"
-  "$DOTFILES_DIR/pam/ssdm:/etc/pam.d/sddm"
 )
+
+# specific files for Thinkpad T480
+# mostly things like trackpad, fingerprint reader on login screen, backlight....
+if [ "$(uname -n)" = "archpad" ]; then
+  LINKS+=(
+    "$DOTFILES_DIR/kernel/psmouse.conf:/etc/modprobe.d/psmouse.conf"
+    "$DOTFILES_DIR/udev/90-backlight.rules:/etc/udev/rules.d/90-backlight.rules"
+    "$DOTFILES_DIR/pam/ssdm:/etc/pam.d/sddm"
+  )
+fi
+
+LINKS=("${LINKS_COMMON[@]}" "${LINKS[@]}")
 
 for theme_file in "$DOTFILES_DIR/emacs/themes/"*.el; do
   theme_name=$(basename "$theme_file")
