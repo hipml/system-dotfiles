@@ -26,7 +26,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
 ;; load my theme
-(load-theme 'kod-adjusted t)
+(load-theme 'kod-new t)
 
 ;; set line wrapping
 (setq-default truncate-lines t)
@@ -89,3 +89,16 @@
 
   :config
   (evil-mode 0))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("1d8ed1460acd9d6352b46379ca6463e14b560ce659fb07ac1e808e19834ba798" default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
