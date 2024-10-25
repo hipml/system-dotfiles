@@ -1,8 +1,8 @@
-;; Custom theme based on provided color scheme
-(deftheme custom-dark "A dark theme with precise color matching")
+;; Kodl theme based on provided color scheme
+(deftheme kodl "A dark theme with precise color matching")
 
 (custom-theme-set-faces
- 'custom-dark
+ 'kodl
  
  ;; Basic faces
  '(default ((t (:foreground "#eee" :background "#222"))))
@@ -23,6 +23,13 @@
  '(font-lock-preprocessor-face ((t (:foreground "#9C8B7C"))))
  '(font-lock-variable-name-face ((t (:foreground "#cda869"))))
  '(font-lock-warning-face ((t (:foreground "#946B57" :weight bold))))  ; todo
+
+ ;; Elisp-specific faces
+ '(font-lock-symbol-face ((t (:foreground "#A19DBF"))))  ; Added symbol face with the symbol color
+
+ ;; Method calls and arguments (python-specific)
+ '(python-mode-method-call ((t (:foreground "#85FFDF"))))  ; for method calls like .from_pretrained
+ '(python-mode-keyword-arg ((t (:foreground "#9194BB"))))  ; for named parameters like token=
 
  ;; Special characters and regexp
  '(escape-glyph ((t (:foreground "#C0D164" :background "#2B2F26"))))  ; specialchar
@@ -56,7 +63,20 @@
 
 ;; Theme variables
 (custom-theme-set-variables
- 'custom-dark
+ 'kodl
  '(frame-background-mode 'dark))
 
-(provide-theme 'custom-dark)
+;; Additional customizations for Python mode
+(with-eval-after-load 'python
+  (font-lock-add-keywords
+   'python-mode
+   '(("\\.[a-zA-Z_][a-zA-Z0-9_]*" 0 'python-mode-method-call t)  ; Method calls
+     ("\\([a-zA-Z_][a-zA-Z0-9_]*\\)=" 1 'python-mode-keyword-arg t))))  ; Named parameters
+
+;; Additional customizations for Elisp mode - ensure symbols are properly highlighted
+(with-eval-after-load 'elisp-mode
+  (font-lock-add-keywords
+   'emacs-lisp-mode
+   '(("'\\([a-zA-Z][a-zA-Z0-9-]*\\)" 1 'font-lock-symbol-face t))))  ; Quoted symbols
+
+(provide-theme 'kodl)

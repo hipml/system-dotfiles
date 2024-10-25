@@ -1,1 +1,6 @@
 .directory
+
+# Emacs backup files
+*~
+\#*\#
+.\#*
