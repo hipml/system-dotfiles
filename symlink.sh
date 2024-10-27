@@ -10,6 +10,7 @@ LINKS_COMMON=(
   "$DOTFILES_DIR/zsh/.zshrc:$HOME/.zshrc"
   "$DOTFILES_DIR/hooks/code-product-json.hook:/etc/pacman.d/hooks/code-product-json.hook"
   "$DOTFILES_DIR/services/my-bluetooth-fix.service:/etc/systemd/system/my-bluetooth-fix.service"
+  "$DOTFILES_DIR/sddm/sddm.conf:/etc/sddm.conf"
 )
 
 # specific files for Thinkpad T480
