@@ -20,7 +20,13 @@ if [ "$(uname -n)" = "archpad" ]; then
     "$DOTFILES_DIR/udev/90-backlight.rules:/etc/udev/rules.d/90-backlight.rules"
     "$DOTFILES_DIR/pam/ssdm:/etc/pam.d/sddm"
   )
+# desktop specific
+elif [ "$(uname -n)" = "Archon" ]; then
+  LINKS+=(
+    "$DOTFILES_DIR/kernel/disable-sp5100-watchdog.conf:/etc/modprobe.d/disable-sp5100-watchdog.conf"
+  )
 fi
+
 
 LINKS=("${LINKS_COMMON[@]}" "${LINKS[@]}")
 
