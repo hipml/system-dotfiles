@@ -8,6 +8,14 @@ export LIBVA_DRIVER_NAME=iHD
 export GDK_BACKEND=wayland
 export QT_QPA_PLATFORM=wayland
 
+export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
+
+# bitsandbytes sucks so much
+export BNB_CUDA_VERSION=126
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cuda:/opt/cuda/lib64
+export PATH=$PATH:/opt/cuda/bin
+export CUDA_HOME=/opt/cuda
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
