@@ -179,7 +179,7 @@
   :config
   (projectile-mode +1)
   (setq projectile-file-explorer 'treemacs)
-  (setq projectile-enable-caching t)
+  ;;(setq projectile-enable-caching t)
   ;; (setq projectile-switch-project-action 'treemacs)
   (setq projectile-project-root-files '(".git" ".hg" "package.json" "build.gradle"))
   ;;(setq projectile-indexing-method 'native)
@@ -209,11 +209,11 @@
 (treemacs-start-on-boot)
 
 (defun update-treemacs-project ()
-  "update treemacs when opening a new file"
+  "Update Treemacs when opening a new file."
   (let ((project-root (projectile-project-root)))
-	(when project-root
-	  (message "Adding project to Treemacs: %s" project-root)
-	  (treemacs-add-project-to-workspace project-root))))
+    (when (and project-root (file-exists-p project-root) (not (treemacs-is-workspace-project? project-root)))
+      (message "Adding project to Treemacs: %s" project-root)
+      (treemacs-add-project-to-workspace project-root))))
 
 (add-hook 'find-file-hook #'update-treemacs-project)
 
