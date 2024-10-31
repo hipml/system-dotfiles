@@ -12,6 +12,7 @@ LINKS_COMMON=(
   "$DOTFILES_DIR/services/my-bluetooth-fix.service:/etc/systemd/system/my-bluetooth-fix.service"
   "$DOTFILES_DIR/sddm/sddm.conf:/etc/sddm.conf"
   "$DOTFILES_DIR/sddm/10-wayland.conf:/etc/sddm.conf.d/10-wayland.conf"
+  "$DOTFILES_DIR/kernel/disable_watchdog.conf:/etc/sysctl.d/disable_watchdog.conf"
 )
 
 # specific files for Thinkpad T480
