@@ -208,15 +208,6 @@
 
 (treemacs-start-on-boot)
 
-(defun update-treemacs-project ()
-  "Update Treemacs when opening a new file."
-  (let ((project-root (projectile-project-root)))
-    (when (and project-root (file-exists-p project-root) (not (treemacs-is-workspace-project? project-root)))
-      (message "Adding project to Treemacs: %s" project-root)
-      (treemacs-add-project-to-workspace project-root))))
-
-(add-hook 'find-file-hook #'update-treemacs-project)
-
 ;;(defun projectile-switch-to-project-when-opening-file ()
 ;;  (when (projectile-project-p)
 ;;	(projectile-switch-project-by-name (projectile-project-name))
