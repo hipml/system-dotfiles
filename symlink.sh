@@ -22,6 +22,7 @@ if [ "$(uname -n)" = "archpad" ]; then
     "$DOTFILES_DIR/kernel/psmouse.conf:/etc/modprobe.d/psmouse.conf"
     "$DOTFILES_DIR/udev/90-backlight.rules:/etc/udev/rules.d/90-backlight.rules"
     "$DOTFILES_DIR/pam/ssdm:/etc/pam.d/sddm"
+	"$DOTFILES_DIR/kernel/throttlestop:/usr/local/bin/throttlestop"
   )
 # desktop specific
 elif [ "$(uname -n)" = "Archon" ]; then
