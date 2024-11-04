@@ -26,6 +26,10 @@ ZSH_THEME="robbyrussell"
 export GEM_HOME="$(gem env user_gemhome)"
 export PATH="$PATH:$GEM_HOME/bin"
 
+# fixing ctrl-d killing everything when using vim
+bindkey -s '^D' ''
+stty eof '^Q'
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
