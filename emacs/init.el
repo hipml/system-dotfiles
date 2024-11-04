@@ -39,63 +39,68 @@
 
 ;; org mode 
 (use-package org
-  :config
-  (setq org-log-done 'time)
-  (setq org-agenda-files '("~/Documents/org/agenda.org"))
-  (setq org-hide-leading-stars t)
-  (setq org-startup-indented t) ; indent headlines
+  :custom
+  (org-log-done 'time)
+  (org-agenda-files '("~/code/org/agenda.org"))
+  (org-agenda-default-view 'agenda)
+  (org-hide-leading-stars t)
+  (org-startup-indented t)
+  (org-file-apps '((auto-mode . emacs)
+                   ("\\.org\\'" . emacs)))
+  (org-capture-templates
+   '(("t" "Todo" entry (file+headline "~/code/org/agenda.org" "Tasks")
+      "* TODO %?\n  %i\n  %a")
+     ("n" "Note" entry (file+headline "~/code/org/agenda.org" "Notes")
+      "* %? :NOTE:\n  %i\n  %a")))
 
+  :config
   (global-set-key (kbd "C-c l") #'org-store-link)
   (global-set-key (kbd "C-c a") #'org-agenda)
-  (global-set-key (kbd "C-c c") #'org-capture))
+  (global-set-key (kbd "C-c c") #'org-capture)
 
-;; set default Org-mode file extension
-(setq org-file-apps '((auto-mode . emacs)
-                      ("\\.org\\'" . emacs)))
+  (defun org-move-done-to-end ()
+    "Move DONE tasks to end of list."
+    (org-map-entries
+     (lambda ()
+       (when (member (org-get-todo-state) '("DONE"))
+         (org-move-subtree-down)))))
 
-;; set default Org-mode agenda view
-(setq org-agenda-default-view 'agenda)
-
-;; set default Org-mode capture template
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/Documents/org/agenda.org" "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("n" "Note" entry (file+headline "~/Documents/org/agenda.org" "Notes")
-         "* %? :NOTE:\n  %i\n  %a")))
+  (add-hook 'org-after-todo-state-change-hook 'org-move-done-to-end))
 
 ;; python
 (use-package python 
-  :ensure nil
+  :mode ("\\.py\\'" . python-mode)
+  :custom
+  (python-indent 4)
+  (python-shell-interpreter "python3")
+  (indent-tabs-mode nil)
   :hook (python-mode . (lambda ()
-                         (setq indent-tabs-mode nil)
-                         (setq python-indent 4))))
-
-(add-hook 'python-mode-hook
-		  (lambda ()
-			(front-lock-mode 1)))
-
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+						 (tree-sitter-hl-mode)
+                         (front-lock-mode))))
 
 (use-package elpy
   :init 
+  :after python
   (elpy-enable))
 
 (use-package ein
   :after (python)
-  :config
-  (setq ein:use-auto-completion t))
+  :custom
+  (ein:use-auto-completion t))
 
 (use-package magit
   :ensure t)
 
 (use-package evil
   :ensure t
-  :init
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-integration t)
-
-  :config
-  (evil-mode 1))
+  :custom
+  (evil-mode 1)
+  (evil-set-initial-state 'treemacs-mode 'emacs)
+  (evil-want-C-u-scroll t)
+  (evil-want-integration t)
+  (define-key evil-normal-state-map (kbd "C-y") 'yank)
+  (define-key evil-visual-state-map (kbd "C-y") 'yank)
+  (define-key evil-insert-state-map (kbd "C-y") 'yank))
 
 (use-package tree-sitter
   :ensure t
@@ -203,7 +208,10 @@
 		("M-0" . treemacs-select-window)
 		("C-x t 1" . treemacs-delete-other-windows)
 		("C-x t t" . treemacs)
-		("C-x t d" . treemacs-select-directory)))
+		("C-x t d" . treemacs-select-directory))
+  :hook
+  (projectile-after-switch-project-hook . treemacs-add-project-to-workspace)
+  (projectile-after-switch-project-hook . treemacs-refresh))
 
 (use-package treemacs-projectile
   :after (treemacs projectile)
@@ -212,21 +220,11 @@
 (use-package treemacs-magit
   :after (treemacs magit))
 
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+
 (treemacs-start-on-boot)
-
-;;(defun projectile-switch-to-project-when-opening-file ()
-;;  (when (projectile-project-p)
-;;	(projectile-switch-project-by-name (projectile-project-name))
-;;	(treemacs-select-window)
-;;	(treemacs-add-and-display-current-project)
-;;	(other-window 1))) ; switch to the newly opened file's buffer
-
-;;(add-hook 'find-file-hook 'projectile-switch-to-project-when-opening-file)
-
-;;(defun treemacs-refresh-when-switching-projects ()
- ;; (treemacs-refresh))
-
-;;(add-hook 'projectile-switch-project-hook 'treemacs-refresh-when-switching-projects)
 
 ;; fix mouse
 (setq mouse-drag-copy-region nil)
