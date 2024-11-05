@@ -76,36 +76,100 @@
   (indent-tabs-mode nil)
   :hook (python-mode . (lambda ()
 						 (tree-sitter-hl-mode)
-                         (front-lock-mode))))
+                         (font-lock-mode))))
 
-(use-package ein
-  :init 
+(use-package jupyter
+  :after python
   :config
-  (setq ein:completion-backend 'ein:use-company-backend) ;; enable auto-complete
-  (setq ein:output-area-inlined-images t) ;; websocket functionality
-  (setq ein:notebook-modes '(ein:notebook-python-mode ein:notebook-plain-mode))
-  (setq ein:output-area-inline-images t)
-  (setq ein:worksheet-enable-undo t)
-  (setq ein:default-url-or-port "http://localhost:8888")
-  (setq ein:notebook-autosave-frequency 300)
-  ;; configure widget support
-  (setq ein:output-type-preference
-        '(widget-state
-          html
-          text/html
-          text/plain
-          image/png
-          image/jpeg
-          image/svg+xml)))
+  ;; Set up runtime directory
+  (setq jupyter-runtime-directory "/home/lita/.local/share/jupyter/runtime")
+  (setq jupyter-executable "/usr/bin/jupyter")
+  
+  ;; Enable jupyter-repl mode in python buffers
+  (add-hook 'python-mode-hook #'jupyter-repl-interaction-mode)
+  
+  ;; Configure REPL display
+  (setq jupyter-repl-prompt-margin-width 8)
+  (setq jupyter-repl-echo-eval-p t
+        jupyter-repl-allow-RET-when-busy t)
+  
+  ;; Enable inline image display
+  (setq jupyter-repl-display-buffer-action '(display-buffer-below-selected))
+  
+  ;; Configure default image size (adjust as needed)
+  (setq jupyter-image-default-width 800
+        jupyter-image-default-height 600)
+  
+  ;; Add convenient keybindings
+  :bind (:map jupyter-repl-interaction-mode-map
+              ("C-c C-c" . jupyter-eval-line-or-region)
+              ("C-c C-r" . jupyter-eval-region)
+              ("C-c C-b" . jupyter-eval-buffer)
+              ("C-c C-k" . jupyter-repl-interrupt-kernel)
+              ("C-c j r" . jupyter-run-repl)
+              ("C-c j R" . jupyter-repl-restart-kernel)))
+  
+;; Add async for asynchronous process execution
+(use-package async
+  :ensure t)
 
-;; Key bindings for EIN
-(with-eval-after-load 'ein-notebook
-  (define-key ein:notebook-mode-map (kbd "C-c C-c") 'ein:worksheet-execute-cell)
-  (define-key ein:notebook-mode-map (kbd "C-c C-x") 'ein:worksheet-execute-all-cells)
-  (define-key ein:notebook-mode-map (kbd "C-c C-b") 'ein:worksheet-insert-cell-below)
-  (define-key ein:notebook-mode-map (kbd "C-c C-a") 'ein:worksheet-insert-cell-above)
-  (define-key ein:notebook-mode-map (kbd "C-c C-k") 'ein:worksheet-kill-cell)
-  (define-key ein:notebook-mode-map (kbd "C-c C-m") 'ein:worksheet-merge-cell))
+(defun my/notebook-export-to-pdf (notebook-file)
+  "Export a Jupyter notebook to PDF using nbconvert."
+  (interactive "fNotebook file: ")
+  (let ((default-directory (file-name-directory notebook-file)))
+    (async-start
+     `(lambda ()
+        ,(async-inject-variables "\\`\\(notebook-file\\|default-directory\\)\\'")
+        (shell-command-to-string
+         (format "cd %s && jupyter nbconvert --to pdf --template classic %s"
+                 default-directory
+                 (file-name-nondirectory notebook-file))))
+     (lambda (result)
+       (if (string-match "error\\|Error\\|ERROR" result)
+           (message "Export failed: %s" result)
+         (message "Successfully exported to PDF! Check %s"
+                  (concat (file-name-sans-extension notebook-file) ".pdf")))))))
+ 
+(defun my/notebook-export-with-template (notebook-file template)
+  "Export a Jupyter notebook to PDF using a specific template."
+  (interactive
+   (list
+    (read-file-name "Notebook file: ")
+    (completing-read "Template: "
+                    '("classic" "article" "report" "basic")
+                    nil t "article")))
+  (async-start
+   `(lambda ()
+      ,(async-inject-variables "\\`\\(notebook-file\\|template\\)\\'")
+      (shell-command-to-string
+       (format "jupyter nbconvert --to pdf --template %s %s"
+               template notebook-file)))
+   (lambda (result)
+     (if (string-match "error" result)
+         (message "Export failed: %s" result)
+       (message "Successfully exported to PDF with %s template!" template)))))
+
+;; Function to check and install required dependencies
+(defun my/check-pdf-export-dependencies ()
+  "Check if required PDF export dependencies are installed."
+  (interactive)
+  (let ((missing-deps '()))
+    (unless (executable-find "jupyter")
+      (push "jupyter" missing-deps))
+    (unless (executable-find "pdflatex")
+      (push "texlive" missing-deps))
+    (unless (executable-find "pandoc")
+      (push "pandoc" missing-deps))
+    
+    (if missing-deps
+        (message "Missing dependencies for PDF export: %s. Install them with your package manager."
+                 (string-join missing-deps ", "))
+      (message "All PDF export dependencies are installed!"))))
+
+;; Add to existing keybindings
+(global-set-key (kbd "C-c j p") 'my/notebook-export-to-pdf)
+(global-set-key (kbd "C-c j t") 'my/notebook-export-with-template)
+(global-set-key (kbd "C-c j d") 'my/check-pdf-export-dependencies)
 
 (use-package company
   :config
@@ -274,7 +338,7 @@
  '(custom-safe-themes
    '("cd3a935a8ffa314b540e05877c97fc4651f62300f9f89d6e9e7ca822a4d591f2" "c0fe46c2c91bda132c98f1f882a83ee263335a3c934d10f0db96c7dbccb7c8a0" "536622b90022666ba1ed1de27535fc79a8a2d0d03c8e7dd4a66872cb225e3bd9" "c30f1ac361bc0025b677e82de3b4a454f77b3abb6542278650e471dd80a6e36a" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "52526fdb0eafd76fdc1963a87a30bd38f70673407646ae13b72561b503dc6f69" "a4c78d5d55160c9a719a36724dba8e428958470dd7952ab0b7b715efd006f6f4" "8bf1e0be927767ae05d4035ee68f54998b112d548494676ec8d1d1b77e43c808" "1d8ed1460acd9d6352b46379ca6463e14b560ce659fb07ac1e808e19834ba798" default))
  '(package-selected-packages
-   '(treemacs-magit treemacs-projectile treemacs auctex-cluttex auctex-cont-latexmk auctex-latexmk auctex-label-numbers markdown-mode pdf-tools auctex flycheck-ocaml merlin-eldoc merlin tuareg tree-sitter-langs tree-sitter treesitter magit evil elpy ein)))
+   '(async jupyter treemacs-magit treemacs-projectile treemacs auctex-cluttex auctex-cont-latexmk auctex-latexmk auctex-label-numbers markdown-mode pdf-tools auctex flycheck-ocaml merlin-eldoc merlin tuareg tree-sitter-langs tree-sitter treesitter magit evil elpy)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
