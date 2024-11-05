@@ -78,29 +78,61 @@
 						 (tree-sitter-hl-mode)
                          (front-lock-mode))))
 
-(use-package elpy
+(use-package ein
   :init 
-  :after python
+  :config
+  (setq ein:completion-backend 'ein:use-company-backend) ;; enable auto-complete
+  (setq ein:output-area-inlined-images t) ;; websocket functionality
+  (setq ein:notebook-modes '(ein:notebook-python-mode ein:notebook-plain-mode))
+  (setq ein:output-area-inline-images t)
+  (setq ein:worksheet-enable-undo t)
+  (setq ein:default-url-or-port "http://localhost:8888")
+  (setq ein:notebook-autosave-frequency 300)
+  ;; configure widget support
+  (setq ein:output-type-preference
+        '(widget-state
+          html
+          text/html
+          text/plain
+          image/png
+          image/jpeg
+          image/svg+xml)))
+
+;; Key bindings for EIN
+(with-eval-after-load 'ein-notebook
+  (define-key ein:notebook-mode-map (kbd "C-c C-c") 'ein:worksheet-execute-cell)
+  (define-key ein:notebook-mode-map (kbd "C-c C-x") 'ein:worksheet-execute-all-cells)
+  (define-key ein:notebook-mode-map (kbd "C-c C-b") 'ein:worksheet-insert-cell-below)
+  (define-key ein:notebook-mode-map (kbd "C-c C-a") 'ein:worksheet-insert-cell-above)
+  (define-key ein:notebook-mode-map (kbd "C-c C-k") 'ein:worksheet-kill-cell)
+  (define-key ein:notebook-mode-map (kbd "C-c C-m") 'ein:worksheet-merge-cell))
+
+(use-package company
+  :config
+  (global-company-mode)
+  (setq company-idle-delay 0.3))
+
+(use-package elpy
+  :after (python)
   (elpy-enable))
 
-(use-package ein
-  :after (python)
-  :custom
-  (ein:use-auto-completion t))
 
 (use-package magit
   :ensure t)
 
 (use-package evil
   :ensure t
-  :custom
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding t)
+  (setq evil-want-C-u-scroll t)
+  :config
   (evil-mode 1)
   (evil-set-initial-state 'treemacs-mode 'emacs)
-  (evil-want-C-u-scroll t)
-  (evil-want-integration t)
-  (define-key evil-normal-state-map (kbd "C-y") 'yank)
-  (define-key evil-visual-state-map (kbd "C-y") 'yank)
-  (define-key evil-insert-state-map (kbd "C-y") 'yank))
+  :bind
+  (:map evil-normal-state-map ("C-y" . 'yank)
+   :map evil-visual-state-map ("C-y" . 'yank)
+   :map evil-insert-state-map ("C-y" . 'yank)))
 
 (use-package tree-sitter
   :ensure t
@@ -174,8 +206,11 @@
 ;; Markdown mode configuration
 (use-package markdown-mode
   :ensure t
-  :mode ("\\.md\\'" . markdown-mode)
+  :commands (markdown-mode gfm-mode)
+  :mode (("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode))
   :config
+  (setq markdown-command "multimarkdown")
   (add-hook 'markdown-mode-hook 'visual-line-mode)) ;; word wrap for markdown
 
 (use-package projectile
