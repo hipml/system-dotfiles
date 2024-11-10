@@ -286,7 +286,10 @@
       (let* ((project-name (projectile-project-name))
              (vterm-buffer-name (format "*%s-vterm*" project-name))
              ;; ensure default-directory is set to the project root
-             (default-directory (projectile-project-root)))
+             (default-directory (projectile-project-root))
+             (frame-width (frame-width))
+             (window-width (window-width))
+             (width-ratio (/ (float window-width) frame-width)))
 
         ;; see if buf already exists
         (unless (get-buffer vterm-buffer-name)
@@ -299,8 +302,12 @@
               (vterm-send-string "conda activate twelve")
               (vterm-send-return))))
 
+        ;; split based on current window width
+        (if (< width-ratio 0.5)
+            (split-window-below)
+          (split-window-right))
+
         ;; open up the terminal 
-        (split-window-right)
         (other-window 1)
         (switch-to-buffer vterm-buffer-name)
         (message "Created vterm session: %s" vterm-buffer-name))))
