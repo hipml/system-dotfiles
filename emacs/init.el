@@ -208,6 +208,7 @@
          (LaTeX-mode . pdf-tools-install)
 		 (LaTeX-mode . visual-line-mode))
   :custom
+  (TeX-engnie 'xetex)
   (TeX-view-program-selection '((output-pdf "PDF Tools")))
   (reftex-default-bibliography '("bibliography.bib"))
   (reftex-plug-into-AUCTeX t)
