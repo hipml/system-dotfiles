@@ -40,6 +40,13 @@
 ;; use shift to move between buffers
 (windmove-default-keybindings)
 
+;; removing menu bar
+;; (menu-bar-mode -1)
+(tool-bar-mode -1)
+
+;; change default buffer to Scratch
+(setq initial-buffer-choice t)
+
 ;; org mode 
 (use-package org
   :custom
@@ -80,38 +87,52 @@
   :hook ((python-mode . tree-sitter-mode)
          (python-mode . tree-sitter-hl-mode)))
   
+;; (use-package jupyter
+;;   :after python
+;;   :config
+;;   ;; Set up runtime directory
+;;   (setq jupyter-runtime-directory "/home/lita/.local/share/jupyter/runtime")
+;;   (setq jupyter-executable "/usr/bin/jupyter")
+;;   
+;;   ;; Enable jupyter-repl mode in python buffers
+;;   (add-hook 'python-mode-hook #'jupyter-repl-interaction-mode)
+;;   
+;;   ;; Configure REPL display
+;;   (setq jupyter-repl-prompt-margin-width 8)
+;;   (setq jupyter-repl-echo-eval-p t
+;;         jupyter-repl-allow-RET-when-busy t)
+;;   
+;;   ;; Enable inline image display
+;;   (setq jupyter-repl-display-buffer-action '(display-buffer-below-selected))
+;;   
+;;   ;; Configure default image size (adjust as needed)
+;;   (setq jupyter-image-default-width 800
+;;         jupyter-image-default-height 600)
+;;   
+;;   ;; Add convenient keybindings
+;;   :bind (:map jupyter-repl-interaction-mode-map
+;;               ("C-c C-c" . jupyter-eval-line-or-region)
+;;               ("C-c C-r" . jupyter-eval-region)
+;;               ("C-c C-b" . jupyter-eval-buffer)
+;;               ("C-c C-k" . jupyter-repl-interrupt-kernel)
+;;               ("C-c j r" . jupyter-run-repl)
+;;               ("C-c j R" . jupyter-repl-restart-kernel)))
+;;   
+;; ;; Add async for asynchronous process execution
+
+;; (use-package ein
+;;   :ensure t
+;;   :config
+;;   (setq ein:output-area-inlined-images t)
+;;   (setq jupyter-kernel-connections '((python . "twelve")))
+;;   (setq ein:jupyter-default-notebook-directory "~/code/"))
+
 (use-package jupyter
-  :after python
+  :ensure t
   :config
-  ;; Set up runtime directory
-  (setq jupyter-runtime-directory "/home/lita/.local/share/jupyter/runtime")
-  (setq jupyter-executable "/usr/bin/jupyter")
-  
-  ;; Enable jupyter-repl mode in python buffers
-  (add-hook 'python-mode-hook #'jupyter-repl-interaction-mode)
-  
-  ;; Configure REPL display
-  (setq jupyter-repl-prompt-margin-width 8)
-  (setq jupyter-repl-echo-eval-p t
-        jupyter-repl-allow-RET-when-busy t)
-  
-  ;; Enable inline image display
-  (setq jupyter-repl-display-buffer-action '(display-buffer-below-selected))
-  
-  ;; Configure default image size (adjust as needed)
-  (setq jupyter-image-default-width 800
-        jupyter-image-default-height 600)
-  
-  ;; Add convenient keybindings
-  :bind (:map jupyter-repl-interaction-mode-map
-              ("C-c C-c" . jupyter-eval-line-or-region)
-              ("C-c C-r" . jupyter-eval-region)
-              ("C-c C-b" . jupyter-eval-buffer)
-              ("C-c C-k" . jupyter-repl-interrupt-kernel)
-              ("C-c j r" . jupyter-run-repl)
-              ("C-c j R" . jupyter-repl-restart-kernel)))
-  
-;; Add async for asynchronous process execution
+  (setq jupyter-python-command "/home/lita/.conda/envs/twelve/bin/python"))
+
+
 (use-package async
   :ensure t)
  
