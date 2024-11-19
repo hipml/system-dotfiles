@@ -120,9 +120,12 @@
   (evil-mode 1)
   (evil-set-initial-state 'treemacs-mode 'emacs)
   :bind
-  (:map evil-normal-state-map ("C-y" . 'yank)
-   :map evil-visual-state-map ("C-y" . 'yank)
-   :map evil-insert-state-map ("C-y" . 'yank)))
+  (:map evil-normal-state-map
+        ("C-y" . 'yank))
+  (:map evil-visual-state-map
+        ("C-y" . 'yank))
+  (:map evil-insert-state-map
+        ("C-y" . 'yank)))
 
 
 (add-hook 'emacs-lisp-mode-hook
@@ -218,8 +221,8 @@
   (setq projectile-project-search-path '("~/code/"))
   :config
   (projectile-mode +1)
-  ;; (setq projectile-file-explorer 'treemacs)
-  (setq projectile-discover-projects-in-directory (expand-file-name "~/code"))
+  (setq projectile-file-explorer 'treemacs)
+  ;; (setq projectile-discover-projects-in-directory (expand-file-name "~/code"))
   (setq projectile-auto-discover t)
   (setq projectile-enable-caching t)
   ;; (setq projectile-auto-update-cache t)
@@ -236,6 +239,7 @@
 
 (use-package treemacs
   :ensure t
+  :defer t
   :after projectile
   :config
   (treemacs-resize-icons 16)
@@ -243,8 +247,8 @@
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode t)
   (treemacs-git-mode 'deferred)
+  (treemacs-git-commit-diff-mode t)
   (treemacs-fringe-indicator-mode 'always)
-  (add-hook 'emacs-startup-hook #'treemacs)
   :bind
   (:map global-map
 		("M-0" . treemacs-select-window)
@@ -253,7 +257,8 @@
 		("C-x t d" . treemacs-select-directory))
   :hook
   (projectile-after-switch-project-hook . treemacs-add-project-to-workspace)
-  (projectile-after-switch-project-hook . treemacs-refresh))
+  (projectile-after-switch-project-hook . treemacs-refresh)
+  (emacs-startup-hook . (lambda () (treemacs) (treemacs-select-window))))
 
 (use-package treemacs-projectile
   :after (treemacs projectile)
@@ -266,6 +271,14 @@
   :after (treemacs evil)
   :ensure t)
 
+;; (use-package all-the-icons
+;;   :if (display-graphic-p))
+
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
+
+(treemacs-start-on-boot)
 
 ;; fix mouse
 (setq mouse-drag-copy-region nil)
@@ -319,7 +332,7 @@
  '(custom-safe-themes
    '("134308c17ad386da20ac5302283f85b20993b929e3a75f4531c7238fde15e067" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "cd3a935a8ffa314b540e05877c97fc4651f62300f9f89d6e9e7ca822a4d591f2" default))
  '(package-selected-packages
-   '(treemacs-all-the-icons ein vterm tuareg treemacs-projectile treemacs-magit treemacs-evil tree-sitter-langs request polymode pdf-tools merlin-eldoc markdown-mode jupyter flycheck-ocaml elpy deferred auctex async anaphora)))
+   '(treemacs-icons-dired treemacs-all-the-icons ein vterm tuareg treemacs-projectile treemacs-magit treemacs-evil tree-sitter-langs request polymode pdf-tools merlin-eldoc markdown-mode jupyter flycheck-ocaml elpy deferred auctex async anaphora)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
