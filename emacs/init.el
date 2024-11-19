@@ -86,52 +86,13 @@
   (indent-tabs-mode nil)
   :hook ((python-mode . tree-sitter-mode)
          (python-mode . tree-sitter-hl-mode)))
-  
-;; (use-package jupyter
-;;   :after python
-;;   :config
-;;   ;; Set up runtime directory
-;;   (setq jupyter-runtime-directory "/home/lita/.local/share/jupyter/runtime")
-;;   (setq jupyter-executable "/usr/bin/jupyter")
-;;   
-;;   ;; Enable jupyter-repl mode in python buffers
-;;   (add-hook 'python-mode-hook #'jupyter-repl-interaction-mode)
-;;   
-;;   ;; Configure REPL display
-;;   (setq jupyter-repl-prompt-margin-width 8)
-;;   (setq jupyter-repl-echo-eval-p t
-;;         jupyter-repl-allow-RET-when-busy t)
-;;   
-;;   ;; Enable inline image display
-;;   (setq jupyter-repl-display-buffer-action '(display-buffer-below-selected))
-;;   
-;;   ;; Configure default image size (adjust as needed)
-;;   (setq jupyter-image-default-width 800
-;;         jupyter-image-default-height 600)
-;;   
-;;   ;; Add convenient keybindings
-;;   :bind (:map jupyter-repl-interaction-mode-map
-;;               ("C-c C-c" . jupyter-eval-line-or-region)
-;;               ("C-c C-r" . jupyter-eval-region)
-;;               ("C-c C-b" . jupyter-eval-buffer)
-;;               ("C-c C-k" . jupyter-repl-interrupt-kernel)
-;;               ("C-c j r" . jupyter-run-repl)
-;;               ("C-c j R" . jupyter-repl-restart-kernel)))
-;;   
-;; ;; Add async for asynchronous process execution
 
-;; (use-package ein
-;;   :ensure t
-;;   :config
-;;   (setq ein:output-area-inlined-images t)
-;;   (setq jupyter-kernel-connections '((python . "twelve")))
-;;   (setq ein:jupyter-default-notebook-directory "~/code/"))
-
-(use-package jupyter
+(use-package ein
   :ensure t
   :config
-  (setq jupyter-python-command "/home/lita/.conda/envs/twelve/bin/python"))
-
+  (setq ein:output-area-inlined-images t)
+  (setq jupyter-kernel-connections '((python . "twelve")))
+  (setq ein:jupyter-default-notebook-directory "~/code/"))
 
 (use-package async
   :ensure t)
@@ -283,6 +244,7 @@
   (treemacs-fringe-indicator-mode t)
   (treemacs-git-mode 'deferred)
   (treemacs-fringe-indicator-mode 'always)
+  (add-hook 'emacs-startup-hook #'treemacs)
   :bind
   (:map global-map
 		("M-0" . treemacs-select-window)
@@ -304,7 +266,6 @@
   :after (treemacs evil)
   :ensure t)
 
-(treemacs-start-on-boot)
 
 ;; fix mouse
 (setq mouse-drag-copy-region nil)
@@ -356,7 +317,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("134308c17ad386da20ac5302283f85b20993b929e3a75f4531c7238fde15e067" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "cd3a935a8ffa314b540e05877c97fc4651f62300f9f89d6e9e7ca822a4d591f2" default)))
+   '("134308c17ad386da20ac5302283f85b20993b929e3a75f4531c7238fde15e067" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "cd3a935a8ffa314b540e05877c97fc4651f62300f9f89d6e9e7ca822a4d591f2" default))
+ '(package-selected-packages
+   '(treemacs-all-the-icons ein vterm tuareg treemacs-projectile treemacs-magit treemacs-evil tree-sitter-langs request polymode pdf-tools merlin-eldoc markdown-mode jupyter flycheck-ocaml elpy deferred auctex async anaphora)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
