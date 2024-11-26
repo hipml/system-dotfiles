@@ -16,7 +16,7 @@
 (setq use-short-answers t)
 
 ;; default font
-(set-face-attribute 'default nil :family "Monospace" :height 100)
+(set-face-attribute 'default nil :family "Monospace" :height 110)
 
 ;; default size
 (add-to-list 'default-frame-alist '(width . 120)) 
@@ -77,6 +77,16 @@
 
   (add-hook 'org-after-todo-state-change-hook 'org-move-done-to-end))
 
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename "~/Dropbox/org"))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-db-autosync-mode))
+
 ;; python
 (use-package python 
   :mode ("\\.py\\'" . python-mode)
@@ -86,13 +96,6 @@
   (indent-tabs-mode nil)
   :hook ((python-mode . tree-sitter-mode)
          (python-mode . tree-sitter-hl-mode)))
-
-(use-package ein
-  :ensure t
-  :config
-  (setq ein:output-area-inlined-images t)
-  (setq jupyter-kernel-connections '((python . "twelve")))
-  (setq ein:jupyter-default-notebook-directory "~/code/"))
 
 (use-package async
   :ensure t)
@@ -126,6 +129,10 @@
         ("C-y" . 'yank))
   (:map evil-insert-state-map
         ("C-y" . 'yank)))
+
+(use-package evil-tex
+  :ensure t
+  :hook (LaTeX-mode . evil-tex-mode))
 
 
 (add-hook 'emacs-lisp-mode-hook
@@ -191,21 +198,44 @@
   :mode ("\\.tex\\'" . LaTeX-mode)
   :hook ((LaTeX-mode . reftex-mode)
          (LaTeX-mode . pdf-tools-install)
+         (LaTeX-mode . prettify-symbols-mode)
 		 (LaTeX-mode . visual-line-mode))
   :custom
-  (TeX-engnie 'xetex)
+  (TeX-engine 'xetex)
   (TeX-view-program-selection '((output-pdf "PDF Tools")))
   (reftex-default-bibliography '("bibliography.bib"))
   (reftex-plug-into-AUCTeX t)
-  (TeX-command-default "LaTeX")
+  ;; (TeX-command-default "LaTeX")
+  (TeX-command-default "LatexMk")
+  (LaTeX-command "latex -shell-escape")
+  ;; -pvc for continuous compilation on save
+  (TeX-command-list
+   (quote
+    (("LatexMk" "latexmk -pdf %s" TeX-run-TeX nil t
+      :help "Run LatexMk"))))
   (TeX-auto-save t)
   (TeX-parse-self t)
   (TeX-PDF-mode t)
   (TeX-master nil)  ;; Ask which file is the master if not set
   :config
   (add-hook 'TeX-after-compilation-finished-functions
-            #'TeX-revert-document-buffer)
-  )
+            #'TeX-revert-document-buffer))
+
+(use-package xenops
+  :ensure t
+  :hook ((org-mode . xenops-mode)
+         (LaTeX-mode . xenops-mode))
+  :config
+  (setq xenops-math-image-scale-factor 1.7
+        xenops-reveal-on-entry t))
+
+;; add latex packages for math support
+;;  https://michaelneuper.com/posts/how-i-use-org-roam-to-takes-notes-for-cs/
+(with-eval-after-load 'org
+  (add-to-list 'org-latex-packages-alist '("" "amsmath" t))
+  (add-to-list 'org-latex-packages-alist '("" "amssymb" t))
+  (add-to-list 'org-latex-packages-alist '("" "mathtools" t))
+  (add-to-list 'org-latex-packages-alist '("" "mathrsfs" t)))
 
 ;; Markdown mode configuration
 (use-package markdown-mode
@@ -261,22 +291,23 @@
   (emacs-startup-hook . (lambda () (treemacs) (treemacs-select-window))))
 
 (use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
+  :ensure t
+  :after (treemacs projectile))
 
 (use-package treemacs-magit
+  :ensure t
   :after (treemacs magit))
 
 (use-package treemacs-evil
-  :after (treemacs evil)
-  :ensure t)
+  :ensure t
+  :after (treemacs evil))
 
 ;; (use-package all-the-icons
 ;;   :if (display-graphic-p))
 
 (use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
+  :ensure t
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
 (treemacs-start-on-boot)
 
@@ -287,43 +318,6 @@
 (use-package vterm
   :ensure t)
 
-(defun my/projectile-vterm ()
-  "open a vterm for the current Projectile project in the background."
-  (interactive) ;; callable yeaaaa
-  ;; check if we are in a Projectile project
-  (when (projectile-project-p)
-      (let* ((project-name (projectile-project-name))
-             (vterm-buffer-name (format "*%s-vterm*" project-name))
-             ;; ensure default-directory is set to the project root
-             (default-directory (projectile-project-root))
-             (frame-width (frame-width))
-             (window-width (window-width))
-             (width-ratio (/ (float window-width) frame-width)))
-
-        ;; see if buf already exists
-        (unless (get-buffer vterm-buffer-name)
-          (save-window-excursion
-            (vterm vterm-buffer-name))
-
-          ;; start conda for my thesis...
-          (when (string-equal project-name "thesis")
-            (with-current-buffer vterm-buffer-name
-              (vterm-send-string "conda activate twelve")
-              (vterm-send-return))))
-
-        ;; split based on current window width
-        (if (< width-ratio 0.5)
-            (split-window-below)
-          (split-window-right))
-
-        ;; open up the terminal 
-        (other-window 1)
-        (switch-to-buffer vterm-buffer-name)
-        (message "Created vterm session: %s" vterm-buffer-name))))
-
-(global-set-key (kbd "C-c p v") #'my/projectile-vterm)
-(add-hook 'projectile-after-switch-project-hook #'my/projectile-vterm)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -332,7 +326,7 @@
  '(custom-safe-themes
    '("134308c17ad386da20ac5302283f85b20993b929e3a75f4531c7238fde15e067" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "cd3a935a8ffa314b540e05877c97fc4651f62300f9f89d6e9e7ca822a4d591f2" default))
  '(package-selected-packages
-   '(treemacs-icons-dired treemacs-all-the-icons ein vterm tuareg treemacs-projectile treemacs-magit treemacs-evil tree-sitter-langs request polymode pdf-tools merlin-eldoc markdown-mode jupyter flycheck-ocaml elpy deferred auctex async anaphora)))
+   '(evil-tex treemacs-icons-dired treemacs-all-the-icons ein vterm tuareg treemacs-projectile treemacs-magit treemacs-evil tree-sitter-langs request polymode pdf-tools merlin-eldoc markdown-mode jupyter flycheck-ocaml elpy deferred auctex async anaphora)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
