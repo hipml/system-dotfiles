@@ -197,29 +197,43 @@
   :ensure t
   :mode ("\\.tex\\'" . LaTeX-mode)
   :hook ((LaTeX-mode . reftex-mode)
-         (LaTeX-mode . pdf-tools-install)
          (LaTeX-mode . prettify-symbols-mode)
 		 (LaTeX-mode . visual-line-mode))
   :custom
   (TeX-engine 'xetex)
-  (TeX-view-program-selection '((output-pdf "PDF Tools")))
-  (reftex-default-bibliography '("bibliography.bib"))
-  (reftex-plug-into-AUCTeX t)
-  ;; (TeX-command-default "LaTeX")
-  (TeX-command-default "LatexMk")
-  (LaTeX-command "latex -shell-escape")
-  ;; -pvc for continuous compilation on save
-  (TeX-command-list
-   (quote
-    (("LatexMk" "latexmk -pdf %s" TeX-run-TeX nil t
-      :help "Run LatexMk"))))
+  (TeX-PDF-mode t)
   (TeX-auto-save t)
   (TeX-parse-self t)
-  (TeX-PDF-mode t)
-  (TeX-master nil)  ;; Ask which file is the master if not set
+  (TeX-master nil)
+  (reftex-default-bibliography '("bibliography.bib"))
+  (reftex-plug-into-AUCTeX t)
+  (TeX-view-program-selection '((output-pdf "PDF Tools")))
+  (TeX-view-program-list '(("PDF Tools" "TeX-pdf-tools-sync-view")))
+  ;; (LaTeX-command "latex -shell-escape")
+  ;; -pvc for continuous compilation on save
+  (TeX-command-default "LaTeXMk")
   :config
-  (add-hook 'TeX-after-compilation-finished-functions
-            #'TeX-revert-document-buffer))
+  (add-to-list 'TeX-command-list
+               '("LaTeXMk" "latexmk -pdf %s" TeX-run-TeX nil t
+                 :help "Run LatexMk")))
+
+(defun hipml/latex-pdf-view (process)
+  "Open the PDF after successful latex compilation... hopefully"
+  (unless (TeX-process-get-variable TeX-command-next 'running)
+    (let ((pdf-file (concat (TeX-master-file) ".pdf")))
+      (if (file-exists-p pdf-file)
+          (progn
+            (TeX-revert-document-buffer process)
+            (TeX-view))
+        (message "PDF file not found: %s" pdf-file)))))
+
+(add-hook 'TeX-after-compilation-finished-functions #'hipml/latex-pdf-view)
+
+
+;; (defun hipml/latex-after-compilation-hook ()
+;;   (when (string-equal TeX-command-next "View")
+;;     (TeX-revert-document-buffer)
+;;     (TeX-view)))
 
 (use-package xenops
   :ensure t
