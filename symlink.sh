@@ -27,7 +27,8 @@ if [ "$(uname -n)" = "archpad" ]; then
 # desktop specific
 elif [ "$(uname -n)" = "Archon" ]; then
   LINKS+=(
-    "$DOTFILES_DIR/kernel/disable-sp5100-watchdog.conf:/etc/modprobe.d/disable-sp5100-watchdog.conf"
+      "$DOTFILES_DIR/kernel/disable-sp5100-watchdog.conf:/etc/modprobe.d/disable-sp5100-watchdog.conf"
+      "$DOTFILES_DIR/services/s2idle-sleep.service:/etc/systemd/system/s2idle-sleep.service"
   )
 fi
 
