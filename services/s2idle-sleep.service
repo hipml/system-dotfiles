@@ -1,0 +1,11 @@
+[Unit]
+Description=Set s2idle as default sleep mode
+After=suspend.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "echo 's2idle' > /sys/power/mem_sleep"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
