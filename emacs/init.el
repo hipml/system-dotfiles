@@ -229,12 +229,6 @@
 
 (add-hook 'TeX-after-compilation-finished-functions #'hipml/latex-pdf-view)
 
-
-;; (defun hipml/latex-after-compilation-hook ()
-;;   (when (string-equal TeX-command-next "View")
-;;     (TeX-revert-document-buffer)
-;;     (TeX-view)))
-
 (use-package xenops
   :ensure t
   :hook ((org-mode . xenops-mode)
@@ -266,10 +260,9 @@
   :config
   (projectile-mode +1)
   (setq projectile-file-explorer 'treemacs)
-  ;; (setq projectile-discover-projects-in-directory (expand-file-name "~/code"))
   (setq projectile-auto-discover t)
   (setq projectile-enable-caching t)
-  ;; (setq projectile-auto-update-cache t)
+  (setq projectile-auto-update-cache t)
   (setq projectile-project-root-files-functions
         '(projectile-root-local
           projectile-root-top-down
@@ -283,8 +276,12 @@
 
 (use-package treemacs
   :ensure t
-  :defer t
-  :after projectile
+  :after (projectile magit evil)
+  :init
+  (add-hook 'after-make-frame-functions
+            (lambda (frame)
+              (select-frame frame)
+              (treemacs)))
   :config
   (treemacs-resize-icons 16)
   (treemacs-follow-mode t)
@@ -301,20 +298,19 @@
 		("C-x t d" . treemacs-select-directory))
   :hook
   (projectile-after-switch-project-hook . treemacs-add-project-to-workspace)
-  (projectile-after-switch-project-hook . treemacs-refresh)
-  (emacs-startup-hook . (lambda () (treemacs) (treemacs-select-window))))
+  (projectile-after-switch-project-hook . treemacs-refresh))
 
 (use-package treemacs-projectile
   :ensure t
-  :after (treemacs projectile))
+  :after (treemacs))
 
 (use-package treemacs-magit
   :ensure t
-  :after (treemacs magit))
+  :after (treemacs))
 
 (use-package treemacs-evil
   :ensure t
-  :after (treemacs evil))
+  :after (treemacs))
 
 ;; (use-package all-the-icons
 ;;   :if (display-graphic-p))
@@ -322,8 +318,6 @@
 (use-package treemacs-icons-dired
   :ensure t
   :hook (dired-mode . treemacs-icons-dired-enable-once))
-
-(treemacs-start-on-boot)
 
 ;; fix mouse
 (setq mouse-drag-copy-region nil)

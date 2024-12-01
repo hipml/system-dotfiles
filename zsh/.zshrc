@@ -26,6 +26,9 @@ ZSH_THEME="robbyrussell"
 export GEM_HOME="$(gem env user_gemhome)"
 export PATH="$PATH:$GEM_HOME/bin"
 
+alias em='emacsclient -c -a ""'
+alias et='emacsclient -t -a ""'
+
 # fixing ctrl-d killing everything when using vim
 bindkey -s '^D' ''
 stty eof '^Q'
