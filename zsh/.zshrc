@@ -6,7 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export VDPAU_DRIVER=va_gl
 export LIBVA_DRIVER_NAME=iHD
 export GDK_BACKEND=wayland
-export QT_QPA_PLATFORM=wayland
+export QT_QPA_PLATFORM=xcb
 
 export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 
