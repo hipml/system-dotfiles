@@ -211,12 +211,14 @@
   (TeX-view-program-list '(("PDF Tools" "TeX-pdf-tools-sync-view")))
   ;; (LaTeX-command "latex -shell-escape")
   ;; -pvc for continuous compilation on save
-  (TeX-command-default "LaTeXMk")
   :config
   (with-eval-after-load 'tex
+    ;; add command to the list
     (add-to-list 'TeX-command-list
                  '("LaTeXMk" "latexmk -pdf %s" TeX-run-TeX nil t
-                   :help "Run LatexMk"))))
+                   :help "Run LatexMk"))
+    ;; make it default
+    (TeX-command-default "LaTeXMk")))
 
 (defun hipml/latex-pdf-view (process)
   "Open the PDF after successful latex compilation... hopefully"
@@ -237,6 +239,10 @@
   :config
   (setq xenops-math-image-scale-factor 1.7
         xenops-reveal-on-entry t))
+
+(add-hook 'latex-mode-hook 'flyspell-mode)
+(add-hook 'tex-mode-hook 'flyspell-mode)
+(setq ispell-program-name "aspell")
 
 ;; add latex packages for math support
 ;;  https://michaelneuper.com/posts/how-i-use-org-roam-to-takes-notes-for-cs/
