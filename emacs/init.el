@@ -109,6 +109,10 @@
   :after org
   :hook (org-mode . evil-org-mode))
 
+;; enable word wrap for org and org-roam mode files
+(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-roam-mode-hook 'visual-line-mode)
+
 ;; makes tab play nicely with org-mode
 (setq evil-want-C-i-jump nil) ;; prevents TAB from being bound to evil-jump-forward
 
