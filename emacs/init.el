@@ -113,21 +113,6 @@
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'org-roam-mode-hook 'visual-line-mode)
 
-;; makes tab play nicely with org-mode
-(setq evil-want-C-i-jump nil) ;; prevents TAB from being bound to evil-jump-forward
-
-(evil-define-key 'normal org-mode-map
-  (kbd "M-h") 'org-metaleft
-  (kbd "M-j") 'org-metadown
-  (kbd "M-k") 'org-metaup
-  (kbd "M-l") 'org-metaright)
-
-(evil-define-key 'normal org-mode-map
-  (kbd "TAB") 'org-cycle
-  (kbd "<tab>") 'org-cycle
-  (kbd "S-TAB") 'org-shifttab
-  (kbd "<S-tab>") 'org-shifttab)
-
 ;; python
 (use-package python 
   :mode ("\\.py\\'" . python-mode)
@@ -185,6 +170,23 @@
                ("(\\(defun\\|defvar\\|defcustom\\|defface\\|defgroup\\)\\s-+\\(\\sw+\\)"
                 (1 font-lock-keyword-face)
                 (2 font-lock-function-name-face))))))
+
+;; makes tab play nicely with org-mode
+(setq evil-want-C-i-jump nil) ;; prevents TAB from being bound to evil-jump-forward
+
+(evil-define-key 'normal org-mode-map
+  (kbd "M-h") 'org-metaleft
+  (kbd "M-j") 'org-metadown
+  (kbd "M-k") 'org-metaup
+  (kbd "M-l") 'org-metaright)
+
+(evil-define-key 'normal org-mode-map
+  (kbd "TAB") 'org-cycle
+  (kbd "<tab>") 'org-cycle
+  (kbd "S-TAB") 'org-shifttab
+  (kbd "<S-tab>") 'org-shifttab)
+
+
 
 ;; tree sitter for pretty syntax highlighting 
 (global-font-lock-mode t)
