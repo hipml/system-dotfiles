@@ -18,6 +18,9 @@
 ;; default font
 (set-face-attribute 'default nil :family "Monospace" :height 110)
 
+;; remove minibuffer scroll bars
+(set-window-scroll-bars (minibuffer-window) nil nil)
+
 ;; default size
 (add-to-list 'default-frame-alist '(width . 120)) 
 (add-to-list 'default-frame-alist '(height . 25))
