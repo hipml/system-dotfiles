@@ -13,6 +13,8 @@ LINKS_COMMON=(
   "$DOTFILES_DIR/sddm/sddm.conf:/etc/sddm.conf"
   "$DOTFILES_DIR/sddm/10-wayland.conf:/etc/sddm.conf.d/10-wayland.conf"
   "$DOTFILES_DIR/kernel/disable_watchdog.conf:/etc/sysctl.d/disable_watchdog.conf"
+  "$DOTFILES_DIR/services/reflector.service:/etc/systemd/system/reflector.service"
+  "$DOTFILES_DIR/services/reflector.timer:/etc/systemd/system/reflector.timer"
 )
 
 # specific files for Thinkpad T480
