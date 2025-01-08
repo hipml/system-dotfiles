@@ -2,17 +2,16 @@
   "A custom theme with dark background and vibrant colors.")
 
 (let ((class '((class color) (min-colors 89)))
+      ;; Core colors from user's CSS
       (bg "#222")
       (fg "#eee")
       (caret "#ff3319")
       (selection-bg "#2F3F52")
       (column-guide "#444")
-      (minibuffer-fg "#666")
-      (minibuffer-bg "#333")      ;; Inactive minibuffer background (darker)
-      (minibuffer-active-bg "#444")  ;; Active minibuffer background (lighter)
-      (minibuffer-border "#444")
+      
+      ;; Syntax colors from user's CSS
       (keyword "#66c8ef")
-      (type "#FFA07A")  ;; light salmon
+      (type "#ffa07a")
       (usertype "#CAC059")
       (classname "#eb7962")
       (string "#9aca7e")
@@ -28,60 +27,60 @@
       (function "#85FFDF")
       (function-bg "#1F2B31")
       (cbracket "#ddd")
-      (todo "#946B57"))
+      (todo "#946B57")
+      
+      ;; UI colors
+      (minibuffer-bg "#333")
+      (minibuffer-active-bg "#444"))
 
-  ;; Set default background and foreground
   (custom-theme-set-faces
    'gptkod
-   `(default ((,class (:background ,bg :foreground ,fg))))
-   `(cursor ((,class (:foreground ,caret))))
-   `(region ((,class (:background ,selection-bg))))
-   `(hl-line ((,class (:background ,selection-bg))))
-   `(column-number ((,class (:foreground ,column-guide))))
    
-   ;; Minibuffer styling - active vs inactive states
-   `(minibuffer-prompt ((,class (:background ,minibuffer-active-bg :foreground ,keyword))))
-   `(minibuffer-line ((,class (:background ,minibuffer-active-bg))))
-   `(mode-line ((,class (:background ,minibuffer-active-bg 
-                        :foreground ,fg 
-                        :box (:line-width -1 :color ,minibuffer-border)))))
-   `(mode-line-inactive ((,class (:background ,minibuffer-bg 
-                                :foreground ,minibuffer-fg 
-                                :box (:line-width -1 :color ,minibuffer-border)))))
-
-   ;; Font lock faces
+   ;; Basic faces
+   `(default ((,class (:background ,bg :foreground ,fg))))
+   `(cursor ((,class (:background ,caret))))
+   `(region ((,class (:background ,selection-bg))))
+   
+   ;; Syntax highlighting faces
    `(font-lock-keyword-face ((,class (:foreground ,keyword))))
    `(font-lock-type-face ((,class (:foreground ,type))))
+   `(font-lock-string-face ((,class (:foreground ,string :background ,string-bg))))
+   `(font-lock-builtin-face ((,class (:foreground ,keyword))))
+   `(font-lock-constant-face ((,class (:foreground ,number))))
    `(font-lock-variable-name-face ((,class (:foreground ,symbol))))
    `(font-lock-function-name-face ((,class (:foreground ,function :background ,function-bg))))
-   `(font-lock-string-face ((,class (:foreground ,string :background ,string-bg))))
-   `(font-lock-comment-face ((,class (:foreground ,comment))))
-   `(font-lock-constant-face ((,class (:foreground ,number))))
+   `(font-lock-comment-face ((,class (:foreground ,comment :slant italic))))
+   `(font-lock-comment-delimiter-face ((,class (:foreground ,comment :slant italic))))
    `(font-lock-preprocessor-face ((,class (:foreground ,preproc))))
-   `(font-lock-doc-face ((,class (:foreground ,comment))))
-   `(font-lock-regexp-grouping-backslash ((,class (:foreground ,regexp))))
-   `(font-lock-regexp-grouping-construct ((,class (:foreground ,regexp))))
-
-   ;; Other faces
-   `(show-paren-match ((,class (:foreground ,function :background ,function-bg))))
-   `(show-paren-mismatch ((,class (:foreground ,specialchar :background ,specialchar-bg))))
-   `(font-lock-builtin-face ((,class (:foreground ,keyword))))
-   `(font-lock-negation-char-face ((,class (:foreground ,specialchar))))
-   `(font-lock-type-face ((,class (:foreground ,type))))
-
-   ;; Custom faces
-   `(font-lock-comment-delimiter-face ((,class (:foreground ,comment))))
-   `(font-lock-type-face ((,class (:foreground ,usertype))))
-   `(font-lock-class-name-face ((,class (:foreground ,classname))))
-   `(font-lock-preprocessor-face ((,class (:foreground ,preproc))))
-   `(font-lock-number-face ((,class (:foreground ,number))))
-   `(font-lock-function-name-face ((,class (:foreground ,function))))
-
-   ;; Brackets and other structural syntax highlighting
-   `(show-paren-match-face ((,class (:background ,function-bg :foreground ,function))))
-   `(show-paren-mismatch-face ((,class (:background ,specialchar-bg :foreground ,specialchar))))
+   `(font-lock-regexp-grouping-backslash ((,class (:foreground ,regexp :background ,regexp-bg))))
+   `(font-lock-regexp-grouping-construct ((,class (:foreground ,regexp :background ,regexp-bg))))
    
-   ;; TODO comments
-   `(font-lock-warning-face ((,class (:foreground ,todo :weight bold))))))
+   ;; JS2-mode specific faces
+   `(js2-function-param ((,class (:foreground ,symbol))))
+   `(js2-external-variable ((,class (:foreground ,symbol))))
+   `(js2-function-call ((,class (:foreground ,function :background ,function-bg))))
+   `(js2-object-property ((,class (:foreground ,symbol))))
+   `(js2-jsdoc-tag ((,class (:foreground ,comment :slant italic))))
+   `(js2-jsdoc-type ((,class (:foreground ,type))))
+   `(js2-jsdoc-value ((,class (:foreground ,string :background ,string-bg))))
+   `(js2-private-member ((,class (:foreground ,symbol))))
+   
+   ;; Special characters and brackets
+   `(show-paren-match ((,class (:foreground ,specialchar :background ,specialchar-bg))))
+   `(paren-face ((,class (:foreground ,cbracket))))
+   `(bracket-face ((,class (:foreground ,cbracket))))
+   `(brace-face ((,class (:foreground ,cbracket))))
+   
+   ;; Minibuffer and mode line
+   `(minibuffer-prompt ((,class (:background ,minibuffer-active-bg :foreground ,keyword))))
+   `(mode-line ((,class (:background ,minibuffer-active-bg :foreground ,fg))))
+   `(mode-line-inactive ((,class (:background ,minibuffer-bg :foreground ,comment))))
+   
+   ;; Additional custom faces
+   `(font-lock-warning-face ((,class (:foreground ,todo :weight bold))))
+   `(font-lock-doc-face ((,class (:foreground ,comment :slant italic))))
+   `(font-lock-negation-char-face ((,class (:foreground ,specialchar :background ,specialchar-bg))))
+   `(font-lock-type-face ((,class (:foreground ,usertype))))
+   `(font-lock-class-name-face ((,class (:foreground ,classname))))))
 
 (provide-theme 'gptkod)
