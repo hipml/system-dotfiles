@@ -32,7 +32,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
 ;; load my theme
-(load-theme 'kud t)
+(load-theme 'gptkod t)
 
 ;; set line wrapping
 (setq-default truncate-lines t)
@@ -411,19 +411,3 @@
   :config
   (setq typescript-indent-level 2))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("11cdd8cc962175689e7b6eb46e9c49c1236f5f974b83927a10769a7139b56a42" "76c7ed68b27868c14d02ffffaf41aff592ecaa4c0885bdd8e049405f9ab96feb" "8d8bfdfca7319ee28f18f68bff8c3aeac13084131b6cdaa7dec1f96b0df0afab" "c64545bd3948962c1b2833f42a99fe3e45eca4149693f4fddcda6547718b716d" "b02fd42d0881f9e1e5106c5d2bcf6793163208585066ad148d9ba8c29993c720" "dbb62acef475676dab89ccf15a914806df2028d52a1d458e8305ae1bd9d2ae24" "536622b90022666ba1ed1de27535fc79a8a2d0d03c8e7dd4a66872cb225e3bd9" "5f4ed5b64eb9fbb3fe4b39493b16409c48cde3da0fde9ac4a56fe4277cc3e2ac" "9448ac7767727bb8947c5b689acc74c190db465dbe78bddf404a8bc3be38457a" "fb97b7404431120bb8c85d2ffbfe9629c181ef78d93e83a866677f359fc840dc" "468eb9a6c7a8f0d5e94e82dfb24472d945f813d7168b5d7860cbae852941fc00" "d474ec389bbb890e4a5aab3c444a746e8be3392588e22841e51f0564997a005d" "76185c24b2e39a42f238e8c8740f0e12c66df0309dc721c99b0ec52d59ad81cc" "925d6006c807abac5c8161c497249d15478fe1ad7a42e73d84b80b31f0b17c12" "a046f87a68ff2dedd4b994814f14b55e4f24da317f50adea3563c2921cdc4ac6" "134308c17ad386da20ac5302283f85b20993b929e3a75f4531c7238fde15e067" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "cd3a935a8ffa314b540e05877c97fc4651f62300f9f89d6e9e7ca822a4d591f2" default))
- '(package-selected-packages
-   '(web-mode typescript-mode modus-themes js2-mode rainbow-mode conda lsp-pyright lsp-ui lsp-mode evil-org gdscript-mode godoctor yaml-mode evil-tex treemacs-icons-dired treemacs-all-the-icons ein vterm tuareg treemacs-projectile treemacs-magit treemacs-evil tree-sitter-langs request polymode pdf-tools merlin-eldoc markdown-mode jupyter flycheck-ocaml elpy deferred auctex async anaphora))
- '(safe-local-variable-values '((conda-project-env-name . "ai_env"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
