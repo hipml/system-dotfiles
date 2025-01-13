@@ -166,8 +166,11 @@
               (evil-org-set-key-theme '(navigation insert textobjects additional))))
   (evil-define-key 'insert evil-org-mode-map
     (kbd "RET") 'org-return-and-maybe-indent)
-  (evil-define-key 'normal evil-org-mode-map
-    (kbd "RET") #'org-open-at-point))
+  (evil-define-key 'normal org-mode-map
+    (kbd "M-RET") (lambda ()
+                    (interactive)
+                    (end-of-line)
+                    (org-meta-return))))
 
 (use-package evil-tex
   :ensure t
@@ -280,8 +283,14 @@
   :hook ((org-mode . xenops-mode)
          (LaTeX-mode . xenops-mode))
   :config
-  (setq xenops-math-image-scale-factor 1.7
+  (setq xenops-math-image-scale-factor 2
         xenops-reveal-on-entry t))
+
+(with-eval-after-load 'xenops
+  (advice-add 'org-meta-return :after
+              (lambda (&rest _)
+                (when xenops-mode
+                  (xenops-render)))))
 
 (add-hook 'latex-mode-hook 'flyspell-mode)
 (add-hook 'tex-mode-hook 'flyspell-mode)
