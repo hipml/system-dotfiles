@@ -41,54 +41,69 @@
    `(cursor ((,class (:background ,caret))))
    `(region ((,class (:background ,selection-bg))))
    
-   ;; Syntax highlighting faces
-   `(font-lock-keyword-face ((,class (:foreground ,keyword))))
-   `(font-lock-type-face ((,class (:foreground ,type))))        ; Built-in types like 'int', 'char'
-   `(font-lock-string-face ((,class (:foreground ,string :background ,string-bg))))
-   `(font-lock-builtin-face ((,class (:foreground ,keyword))))
-   `(font-lock-constant-face ((,class (:foreground ,number))))
-   `(font-lock-variable-name-face ((,class (:foreground ,symbol))))
-   `(font-lock-function-name-face ((,class (:foreground ,function :background ,function-bg))))
-   `(font-lock-comment-face ((,class (:foreground ,comment :slant italic))))
+   ;; Font-lock faces
+   `(font-lock-builtin-face ((,class (:foreground ,type))))
    `(font-lock-comment-delimiter-face ((,class (:foreground ,comment :slant italic))))
+   `(font-lock-comment-face ((,class (:foreground ,comment :slant italic))))
+   `(font-lock-constant-face ((,class (:foreground ,number))))
+   `(font-lock-doc-face ((,class (:foreground ,comment :slant italic))))
+   `(font-lock-function-name-face ((,class (:foreground ,function))))
+   `(font-lock-keyword-face ((,class (:foreground ,keyword))))
+   `(font-lock-negation-char-face ((,class (:foreground ,keyword))))
    `(font-lock-preprocessor-face ((,class (:foreground ,preproc))))
-   `(font-lock-regexp-grouping-backslash ((,class (:foreground ,regexp :background ,regexp-bg))))
-   `(font-lock-regexp-grouping-construct ((,class (:foreground ,regexp :background ,regexp-bg))))
-   `(font-lock-class-name-face ((,class (:foreground ,classname))))  ; User-defined types
-   
-   ;; JS2-mode specific faces
-   `(js2-function-param ((,class (:foreground ,symbol))))
-   `(js2-external-variable ((,class (:foreground ,symbol))))
-   `(js2-function-call ((,class (:foreground ,function :background ,function-bg))))
-   `(js2-object-property ((,class (:foreground ,symbol))))
-   `(js2-jsdoc-tag ((,class (:foreground ,comment :slant italic))))
-   `(js2-jsdoc-type ((,class (:foreground ,type))))
-   `(js2-jsdoc-value ((,class (:foreground ,string :background ,string-bg))))
-   `(js2-private-member ((,class (:foreground ,symbol))))
+   `(font-lock-string-face ((,class (:foreground ,string))))
+   `(font-lock-type-face ((,class (:foreground ,type))))
+   `(font-lock-variable-name-face ((,class (:foreground ,symbol))))
+   `(font-lock-warning-face ((,class (:foreground ,todo :weight bold))))
 
    ;; Tree-sitter faces
-   (custom-set-faces
-    '(tree-sitter-hl-face:function-name ((t (:foreground "#85FFDF" :background "#1F2B31"))))
-    '(tree-sitter-hl-face:variable ((t (:foreground "#A19DBF"))))
-    '(tree-sitter-hl-face:keyword ((t (:foreground "#66c8ef"))))
-    '(tree-sitter-hl-face:type ((t (:foreground "#ffa07a"))))
-    '(tree-sitter-hl-face:comment ((t (:foreground "#666" :slant italic))))
-    '(tree-sitter-hl-face:string ((t (:foreground "#9aca7e" :background "#212A24")))))
+   `(tree-sitter-hl-face:keyword ((,class (:foreground ,keyword))))
+   `(tree-sitter-hl-face:type.builtin ((,class (:foreground ,type))))
+   `(tree-sitter-hl-face:type ((,class (:foreground ,type))))
+   `(tree-sitter-hl-face:type.definition ((,class (:foreground ,classname))))
+   `(tree-sitter-hl-face:constant ((,class (:foreground ,number))))
+   `(tree-sitter-hl-face:string ((,class (:foreground ,string :background ,string-bg))))
+   `(tree-sitter-hl-face:comment ((,class (:foreground ,comment :slant italic))))
+   `(tree-sitter-hl-face:variable ((,class (:foreground ,symbol))))
+   `(tree-sitter-hl-face:function ((,class (:foreground ,function))))
+   `(tree-sitter-hl-face:function.call ((,class (:foreground ,function))))
+   `(tree-sitter-hl-face:operator ((,class (:foreground ,keyword))))
+   `(tree-sitter-hl-face:punctuation ((,class (:foreground ,cbracket))))
+
+   ;; Additional syntax faces
+   `(escape-glyph ((,class (:foreground ,specialchar))))
+   `(homoglyph ((,class (:foreground ,specialchar))))
+   `(match ((,class (:background ,selection-bg :foreground ,fg))))
    
-   ;; Special characters and brackets
-   `(show-paren-match ((,class (:foreground ,specialchar :background ,specialchar-bg))))
-   `(paren-face ((,class (:foreground ,cbracket))))
-   `(bracket-face ((,class (:foreground ,cbracket))))
-   `(brace-face ((,class (:foreground ,cbracket))))
+   ;; Parenthesis matching
+   `(show-paren-match ((,class (:foreground ,keyword :weight bold))))
+   `(show-paren-mismatch ((,class (:background ,caret :foreground ,fg))))
+
+   ;; Line highlighting
+   `(hl-line ((,class (:background "#333"))))
+   `(highlight ((,class (:background ,selection-bg))))
    
-   ;; Minibuffer and mode line
-   `(minibuffer-prompt ((,class (:background ,minibuffer-active-bg :foreground ,keyword))))
+   ;; Mode line
    `(mode-line ((,class (:background ,minibuffer-active-bg :foreground ,fg))))
    `(mode-line-inactive ((,class (:background ,minibuffer-bg :foreground ,comment))))
    
-   ;; Additional custom faces
-   `(font-lock-warning-face ((,class (:foreground ,todo :weight bold))))
-   `(font-lock-doc-face ((,class (:foreground ,comment :slant italic))))
-   `(font-lock-negation-char-face ((,class (:foreground ,specialchar :background ,specialchar-bg)))))
+   ;; Company (completion) faces
+   `(company-tooltip ((,class (:background ,minibuffer-bg :foreground ,fg))))
+   `(company-tooltip-selection ((,class (:background ,selection-bg))))
+   `(company-tooltip-common ((,class (:foreground ,keyword))))
+   `(company-tooltip-annotation ((,class (:foreground ,type))))
+   
+   ;; Minibuffer
+   `(minibuffer-prompt ((,class (:foreground ,keyword :weight bold)))))
 
-(provide-theme 'gptkod))
+  (custom-theme-set-variables
+   'gptkod
+   `(ansi-color-names-vector
+     [,bg ,regexp ,string ,usertype ,keyword ,number ,type ,fg])))
+
+;;;###autoload
+(when load-file-name
+  (add-to-list 'custom-theme-load-path
+               (file-name-as-directory (file-name-directory load-file-name))))
+
+(provide-theme 'gptkod)
