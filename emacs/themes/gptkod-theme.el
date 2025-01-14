@@ -43,7 +43,7 @@
    
    ;; Syntax highlighting faces
    `(font-lock-keyword-face ((,class (:foreground ,keyword))))
-   `(font-lock-type-face ((,class (:foreground ,type))))
+   `(font-lock-type-face ((,class (:foreground ,type))))        ; Built-in types like 'int', 'char'
    `(font-lock-string-face ((,class (:foreground ,string :background ,string-bg))))
    `(font-lock-builtin-face ((,class (:foreground ,keyword))))
    `(font-lock-constant-face ((,class (:foreground ,number))))
@@ -54,6 +54,7 @@
    `(font-lock-preprocessor-face ((,class (:foreground ,preproc))))
    `(font-lock-regexp-grouping-backslash ((,class (:foreground ,regexp :background ,regexp-bg))))
    `(font-lock-regexp-grouping-construct ((,class (:foreground ,regexp :background ,regexp-bg))))
+   `(font-lock-class-name-face ((,class (:foreground ,classname))))  ; User-defined types
    
    ;; JS2-mode specific faces
    `(js2-function-param ((,class (:foreground ,symbol))))
@@ -64,6 +65,15 @@
    `(js2-jsdoc-type ((,class (:foreground ,type))))
    `(js2-jsdoc-value ((,class (:foreground ,string :background ,string-bg))))
    `(js2-private-member ((,class (:foreground ,symbol))))
+
+   ;; Tree-sitter faces
+   (custom-set-faces
+    '(tree-sitter-hl-face:function-name ((t (:foreground "#85FFDF" :background "#1F2B31"))))
+    '(tree-sitter-hl-face:variable ((t (:foreground "#A19DBF"))))
+    '(tree-sitter-hl-face:keyword ((t (:foreground "#66c8ef"))))
+    '(tree-sitter-hl-face:type ((t (:foreground "#ffa07a"))))
+    '(tree-sitter-hl-face:comment ((t (:foreground "#666" :slant italic))))
+    '(tree-sitter-hl-face:string ((t (:foreground "#9aca7e" :background "#212A24")))))
    
    ;; Special characters and brackets
    `(show-paren-match ((,class (:foreground ,specialchar :background ,specialchar-bg))))
@@ -79,8 +89,6 @@
    ;; Additional custom faces
    `(font-lock-warning-face ((,class (:foreground ,todo :weight bold))))
    `(font-lock-doc-face ((,class (:foreground ,comment :slant italic))))
-   `(font-lock-negation-char-face ((,class (:foreground ,specialchar :background ,specialchar-bg))))
-   `(font-lock-type-face ((,class (:foreground ,usertype))))
-   `(font-lock-class-name-face ((,class (:foreground ,classname))))))
+   `(font-lock-negation-char-face ((,class (:foreground ,specialchar :background ,specialchar-bg)))))
 
-(provide-theme 'gptkod)
+(provide-theme 'gptkod))
