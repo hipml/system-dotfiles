@@ -53,6 +53,11 @@
 ;; disable new frames
 (setq pop-up-frames nil)
 
+;; fix mouse
+(setq mouse-drag-copy-region nil)
+(setq mouse-scroll-accepts-movement nil)
+
+
 ;; org mode 
 (use-package org
   :custom
@@ -90,20 +95,26 @@
   (org-roam-directory (file-truename "~/Dropbox/org"))
   (org-roam-file-extensions '("org"))
   (org-roam-completion-everywhere t)
-  (org-roam-capture-templates
-   '(("d" "default" plain
-      "%?"
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}\n")
-      :unnarrowed t)))
+  (org-roam-completion-system 'default)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture))
   :config
   (org-roam-db-autosync-mode)
+  
+  (add-hook 'org-capture-after-finalize-hook (lambda ()
+            (when-let* ((buf (org-capture-get :buffer))
+                       (win (get-buffer-window buf)))
+              (when (window-live-p win)
+                (delete-window win)))))
+  
+  ;; make sure evil doesn't interfere with org-capture
+  (evil-set-initial-state 'org-capture-mode 'insert)
+  
   (evil-define-key '(normal) org-mode-map
     (kbd "RET") #'org-open-at-point))
+
 
 ;; enable word wrap for org and org-roam mode files
 (add-hook 'org-mode-hook 'visual-line-mode)
@@ -376,26 +387,17 @@
   :ensure t
   :hook (dired-mode . treemacs-icons-dired-enable-once))
 
-;; fix mouse
-(setq mouse-drag-copy-region nil)
-(setq mouse-scroll-accepts-movement nil)
-
 (use-package vterm
   :ensure t)
-
-(add-hook 'server-after-make-frame-hook
-          (lambda ()
-            (let ((frame (car (frame-list))))
-              (select-frame frame)
-              (raise-frame frame))))
 
 (use-package gdscript-mode
   :mode "\\.gd\\'" 
   :ensure t)
 
-(use-package conda
-  :config
-  (conda-env-autoactivate-mode t))
+;; commenting out conda for now b/c i'm not using REPL anyway
+;; (use-package conda
+;;   :config
+;;   (conda-env-autoactivate-mode t))
 
 ;; General indentation settings
 (setq-default indent-tabs-mode nil)  ; Use spaces instead of tabs
@@ -436,20 +438,16 @@
   (setq imenu-list-position 'right
         imenu-list-size 35))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("0a25c029d566037c9e11a5bcc10d0d72dccfc5b0fff8b1aa6f5245e1593dd06b" "d4537a642ff0fe114cd67f10dfb62f7d9437947ccce93200c98d59a749a70c76" "afd9cc12404ee5281f25d2fad3ef9ed8536b48deee00231ecf6d6b5386d3e772" "91c84ba867562349284b0b79a7eec22c3ba5c1b80f1c19905cf5db4fbb491056" "fce7830dd9cce759b336908417ecdbc211bf1a767c4a8c430cf8eb3642dc03a5" "724cc18ac6f2526525fda22de2a9a8a5d1a6d865e68728c6aefd1ad420f16c5d" "8345f6fbfc014723cda67435de2f11d9b7e4a3a0acaaf224a024b16156446530" "9fc35fe9b16e4e77252864ac66a7881e073452be150c28c0dc2b7f7256176531" "9a8d1c9eaff0d7e7344ad045c65a770f35d14deae9c21a9a83e7b92e64293fe7" "513d3a53bea9283f76ef64e66f8bfae97d340bdf93c2b5498732956a6c4431a6" "c059cb3cfbd57369e4913191dbbc717ee9b29231f127451e30ebd5962da7cb5c" "420ae08dfc16a4bba7be55e9ab81fc509e99118f04b43f67616f02b085d313c4" "11cdd8cc962175689e7b6eb46e9c49c1236f5f974b83927a10769a7139b56a42" "76c7ed68b27868c14d02ffffaf41aff592ecaa4c0885bdd8e049405f9ab96feb" "8d8bfdfca7319ee28f18f68bff8c3aeac13084131b6cdaa7dec1f96b0df0afab" "c64545bd3948962c1b2833f42a99fe3e45eca4149693f4fddcda6547718b716d" "b02fd42d0881f9e1e5106c5d2bcf6793163208585066ad148d9ba8c29993c720" "dbb62acef475676dab89ccf15a914806df2028d52a1d458e8305ae1bd9d2ae24" "536622b90022666ba1ed1de27535fc79a8a2d0d03c8e7dd4a66872cb225e3bd9" "5f4ed5b64eb9fbb3fe4b39493b16409c48cde3da0fde9ac4a56fe4277cc3e2ac" "9448ac7767727bb8947c5b689acc74c190db465dbe78bddf404a8bc3be38457a" "fb97b7404431120bb8c85d2ffbfe9629c181ef78d93e83a866677f359fc840dc" "468eb9a6c7a8f0d5e94e82dfb24472d945f813d7168b5d7860cbae852941fc00" "d474ec389bbb890e4a5aab3c444a746e8be3392588e22841e51f0564997a005d" "76185c24b2e39a42f238e8c8740f0e12c66df0309dc721c99b0ec52d59ad81cc" "925d6006c807abac5c8161c497249d15478fe1ad7a42e73d84b80b31f0b17c12" "a046f87a68ff2dedd4b994814f14b55e4f24da317f50adea3563c2921cdc4ac6" "134308c17ad386da20ac5302283f85b20993b929e3a75f4531c7238fde15e067" "9f96a5e589c9e5bfb299ea372ef82ae636f1a0b88b01bc3263d64cb0bfac4de4" "cd3a935a8ffa314b540e05877c97fc4651f62300f9f89d6e9e7ca822a4d591f2" default))
- '(package-selected-packages
-   '(imenu-list tree-sitter-indent web-mode typescript-mode modus-themes js2-mode rainbow-mode conda lsp-pyright lsp-ui lsp-mode evil-org gdscript-mode godoctor yaml-mode evil-tex treemacs-icons-dired treemacs-all-the-icons ein vterm tuareg treemacs-projectile treemacs-magit treemacs-evil tree-sitter-langs request polymode pdf-tools merlin-eldoc markdown-mode jupyter flycheck-ocaml elpy deferred auctex async anaphora))
- '(safe-local-variable-values '((conda-project-env-name . "ai_env"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(tree-sitter-hl-face:constructor ((t (:foreground "#eb7962"))))
- '(tree-sitter-hl-face:type.definition ((t (:foreground "#eb7962")))))
+(use-package vertico
+  :init
+  (vertico-mode))
+
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles . (basic partial-completion))))))
+
+(use-package marginalia
+  :init
+  (marginalia-mode))
+
