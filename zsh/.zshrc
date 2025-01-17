@@ -16,6 +16,8 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cuda:/opt/cuda/lib64
 export PATH=$PATH:/opt/cuda/bin
 export CUDA_HOME=/opt/cuda
 
+export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
