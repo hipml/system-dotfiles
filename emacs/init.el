@@ -451,3 +451,17 @@
   :init
   (marginalia-mode))
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("5badfc8a61612d54ec62351fdffa7a14655eb9f93be5e2574442ca569f7e0300" "852593a435788254dedfa0436fff6b08cd148156920792203d0356c5663fed53" "4f34c28e3cc18737b0951a1a13f9f6f1f3822d673acce2143c691997a9f5cf22" default))
+ '(safe-local-variable-values '((conda-project-env-name . "ai_env"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

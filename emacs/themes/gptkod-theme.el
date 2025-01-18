@@ -92,6 +92,17 @@
    `(company-tooltip-selection ((,class (:background ,selection-bg))))
    `(company-tooltip-common ((,class (:foreground ,keyword))))
    `(company-tooltip-annotation ((,class (:foreground ,type))))
+
+   ;; Treemacs
+   `(treemacs-root-face ((,class (:foreground ,type :weight bold))))
+   `(treemacs-file-face ((,class (:foreground ,fg))))
+   `(treemacs-directory-face ((,class (:foreground ,function))))
+   `(treemacs-git-modified-face ((,class (:foreground ,classname))))
+   `(treemacs-git-added-face ((,class (:foreground ,string))))
+   `(treemacs-git-conflict-face ((,class (:foreground ,caret))))
+   `(treemacs-git-untracked-face ((,class (:foreground ,comment))))
+   `(treemacs-term-node-face ((,class (:foreground ,function))))
+   `(treemacs-tags-face ((,class (:foreground ,symbol))))
    
    ;; Minibuffer
    `(minibuffer-prompt ((,class (:foreground ,keyword :weight bold)))))
