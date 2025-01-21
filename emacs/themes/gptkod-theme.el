@@ -103,6 +103,17 @@
    `(treemacs-git-untracked-face ((,class (:foreground ,comment))))
    `(treemacs-term-node-face ((,class (:foreground ,function))))
    `(treemacs-tags-face ((,class (:foreground ,symbol))))
+
+   ;; Additional Tree-sitter faces for JavaScript
+   `(tree-sitter-hl-face:property ((,class (:foreground ,symbol))))
+   `(tree-sitter-hl-face:method ((,class (:foreground ,function))))
+   `(tree-sitter-hl-face:method.call ((,class (:foreground ,function))))
+   `(tree-sitter-hl-face:variable.parameter ((,class (:foreground ,specialchar))))
+   `(tree-sitter-hl-face:variable.builtin ((,class (:foreground ,keyword))))
+   `(tree-sitter-hl-face:constructor ((,class (:foreground ,classname))))
+   `(tree-sitter-hl-face:number ((,class (:foreground ,number))))
+   `(tree-sitter-hl-face:variable.special ((,class (:foreground ,specialchar))))
+   `(tree-sitter-hl-face:operator ((,class (:foreground ,keyword))))
    
    ;; Minibuffer
    `(minibuffer-prompt ((,class (:foreground ,keyword :weight bold)))))

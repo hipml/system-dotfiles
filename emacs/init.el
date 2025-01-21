@@ -403,10 +403,10 @@
   :mode "\\.gd\\'" 
   :ensure t)
 
-;; commenting out conda for now b/c i'm not using REPL anyway
-;; (use-package conda
-;;   :config
-;;   (conda-env-autoactivate-mode t))
+(use-package conda
+  :config
+  (conda-env-initialize-interactive-shells)
+  (conda-env-initialize-eshell))
 
 ;; General indentation settings
 (setq-default indent-tabs-mode nil)  ; Use spaces instead of tabs
@@ -416,7 +416,6 @@
 (use-package web-mode
   :mode (("\\.html?\\'" . web-mode)
          ("\\.css\\'" . web-mode)
-         ("\\.jsx?\\'" . web-mode)
          ("\\.tsx?\\'" . web-mode))
   :config
   (setq web-mode-markup-indent-offset 2)    ; HTML indentation
@@ -428,12 +427,14 @@
   (setq web-mode-enable-css-colorization t) ; CSS color highlighting
   (setq web-mode-enable-current-element-highlight t)) ; Highlight current element
 
-;; JavaScript specific configuration
-(use-package js2-mode
-  :mode "\\.js\\'"
+(use-package js
+  :ensure :nil
+  :mode (("\\.js\\'" . js-ts-mode)
+         ("\\.jsx\\'" . js-ts-mode))
   :config
-  (setq js2-basic-offset 2)
-  (setq js2-strict-missing-semi-warning nil)) ; Optional: disable missing semicolon warning
+  (require 'treesit)
+  (when (treesit-available-p)
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))))
 
 ;; TypeScript support
 (use-package typescript-mode
@@ -454,7 +455,6 @@
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
-  ;; (completion-category-overrides '((file (styles . (basic partial-completion))))))
   (completion-category-defaults nil)
   (completion-category-overrides nil))
 
