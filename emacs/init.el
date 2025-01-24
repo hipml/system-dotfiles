@@ -438,7 +438,7 @@
   (setq web-mode-enable-current-element-highlight t)) ; Highlight current element
 
 (use-package js
-  :ensure :nil
+  :ensure nil
   :mode (("\\.js\\'" . js-ts-mode)
          ("\\.jsx\\'" . js-ts-mode))
   :config
