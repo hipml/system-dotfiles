@@ -66,6 +66,8 @@
 (setq mouse-drag-copy-region nil)
 (setq mouse-scroll-accepts-movement nil)
 
+;; emoji font? C-x 8 RET
+(set-fontset-font t 'symbol "Noto Color Emoji")
 
 ;; org mode 
 (use-package org
@@ -473,3 +475,7 @@
 (use-package savehist
   :ensure nil
   :hook (after-init . savehist-mode))
+
+(add-to-list 'load-path "~/code/aitocomplete/")
+(require 'llm-autocomplete)
+(add-hook 'prog-mode-hook 'llm-autocomplete-mode)
