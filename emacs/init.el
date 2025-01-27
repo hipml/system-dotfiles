@@ -231,20 +231,6 @@
 
 (setq evil-undo-system 'undo-fu)
 
-;; (use-package tree-sitter
-;;   :ensure t
-;;   :config
-;;   (global-tree-sitter-mode)
-;;   (add-hook 'emacs-lisp-mode-hook #'tree-sitter-hl-mode)
-;;   (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
-;; 
-;; (use-package tree-sitter-langs
-;;   :ensure t
-;;   :after tree-sitter
-;;   :config
-;;   (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
-;;   (add-hook 'org-mode-hook #'tree-sitter-hl-mode))
-
 ;; major mode for ocaml
 (use-package tuareg
   :ensure t
@@ -412,6 +398,8 @@
 (use-package treemacs-icons-dired
   :ensure t
   :hook (dired-mode . treemacs-icons-dired-enable-once))
+
+(add-hook 'treemacs-mode-hook (lambda () (display-line-numbers-mode -1)))
 
 (use-package vterm
   :ensure t)
