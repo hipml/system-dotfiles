@@ -45,7 +45,7 @@
    `(font-lock-builtin-face ((,class (:foreground ,type))))
    `(font-lock-comment-delimiter-face ((,class (:foreground ,comment :slant italic))))
    `(font-lock-comment-face ((,class (:foreground ,comment :slant italic))))
-   `(font-lock-constant-face ((,class (:foreground ,number))))
+   `(font-lock-constant-face ((,class (:foreground ,specialchar :background ,specialchar-bg))))
    `(font-lock-doc-face ((,class (:foreground ,comment :slant italic))))
    `(font-lock-function-name-face ((,class (:foreground ,function))))
    `(font-lock-keyword-face ((,class (:foreground ,keyword))))
@@ -55,6 +55,8 @@
    `(font-lock-type-face ((,class (:foreground ,type))))
    `(font-lock-variable-name-face ((,class (:foreground ,symbol))))
    `(font-lock-warning-face ((,class (:foreground ,todo :weight bold))))
+   `(font-lock-number-face ((,class (:foreground ,number))))
+   `(font-lock-type-face ((,class (:foreground ,classname))))
 
    ;; Treesit faces
    `(treesit-font-lock-keyword-face ((,class (:foreground ,keyword))))
@@ -69,6 +71,7 @@
    `(treesit-font-lock-punctuation-face ((,class (:foreground ,cbracket))))
    `(treesit-font-lock-property-face ((,class (:foreground ,symbol))))
    `(treesit-font-lock-number-face ((,class (:foreground ,number))))
+   `(treesit-font-lock-literal-face ((,class (:foreground ,usertype))))
    `(treesit-font-lock-literal-face ((,class (:foreground ,number))))
    `(treesit-font-lock-constructor-face ((,class (:foreground ,classname))))
    `(treesit-font-lock-builtin-face ((,class (:foreground ,keyword))))
@@ -76,6 +79,7 @@
    `(treesit-font-lock-delimiter-face ((,class (:foreground ,cbracket))))
    `(treesit-font-lock-escape-face ((,class (:foreground ,specialchar))))
 
+ 
    ;; Additional syntax faces
    `(escape-glyph ((,class (:foreground ,specialchar))))
    `(homoglyph ((,class (:foreground ,specialchar))))
