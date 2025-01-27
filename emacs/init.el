@@ -25,7 +25,7 @@
 (setq use-short-answers t)
 
 ;; default font
-(set-face-attribute 'default nil :family "Monospace" :height 110)
+(set-face-attribute 'default nil :family "Monospace" :height 105)
 
 ;; remove minibuffer scroll bars
 (set-window-scroll-bars (minibuffer-window) nil nil)
@@ -52,9 +52,10 @@
 ;; use shift to move between buffers
 (windmove-default-keybindings)
 
-;; removing menu bar
+;; removing menu bar and scroll bar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; change default buffer to Scratch
 (setq initial-buffer-choice t)
@@ -68,6 +69,14 @@
 
 ;; emoji font? C-x 8 RET
 (set-fontset-font t 'symbol "Noto Color Emoji")
+
+
+;; tree sitter for pretty syntax highlighting 
+(require 'treesit)
+(global-font-lock-mode t)
+(setq font-lock-maximum-decoration t)
+(setq treesit-font-lock-level 4)
+(setq treesit-extra-load-path '("~/.emacs.d/tree-sitter/"))
 
 ;; org mode 
 (use-package org
@@ -133,13 +142,11 @@
 
 ;; python
 (use-package python 
-  :mode ("\\.py\\'" . python-mode)
+  :mode ("\\.py\\'" . python-ts-mode)
   :custom
   (python-indent-offset 4)
   (python-shell-interpreter "python3")
-  (indent-tabs-mode nil)
-  :hook ((python-mode . tree-sitter-mode)
-         (python-mode . tree-sitter-hl-mode)))
+  (indent-tabs-mode nil))
 
 (use-package async
   :ensure t)
@@ -194,6 +201,9 @@
                     (end-of-line)
                     (org-meta-return))))
 
+;; (evil-define-key 'insert evil-org-mode-map
+;;   (kbd "RET" 'org-return)
+
 (use-package evil-tex
   :ensure t
   :hook (LaTeX-mode . evil-tex-mode))
@@ -221,22 +231,19 @@
 
 (setq evil-undo-system 'undo-fu)
 
-;; tree sitter for pretty syntax highlighting 
-(global-font-lock-mode t)
-(setq font-lock-maximum-decoration t)
-(use-package tree-sitter
-  :ensure t
-  :config
-  (global-tree-sitter-mode)
-  (add-hook 'emacs-lisp-mode-hook #'tree-sitter-hl-mode)
-  (add-hook 'python-mode-hook #'tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter
-  :config
-  (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
-  (add-hook 'org-mode-hook #'tree-sitter-hl-mode))
+;; (use-package tree-sitter
+;;   :ensure t
+;;   :config
+;;   (global-tree-sitter-mode)
+;;   (add-hook 'emacs-lisp-mode-hook #'tree-sitter-hl-mode)
+;;   (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
+;; 
+;; (use-package tree-sitter-langs
+;;   :ensure t
+;;   :after tree-sitter
+;;   :config
+;;   (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
+;;   (add-hook 'org-mode-hook #'tree-sitter-hl-mode))
 
 ;; major mode for ocaml
 (use-package tuareg

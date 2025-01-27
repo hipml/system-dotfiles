@@ -56,19 +56,25 @@
    `(font-lock-variable-name-face ((,class (:foreground ,symbol))))
    `(font-lock-warning-face ((,class (:foreground ,todo :weight bold))))
 
-   ;; Tree-sitter faces
-   `(tree-sitter-hl-face:keyword ((,class (:foreground ,keyword))))
-   `(tree-sitter-hl-face:type.builtin ((,class (:foreground ,type))))
-   `(tree-sitter-hl-face:type ((,class (:foreground ,type))))
-   `(tree-sitter-hl-face:type.definition ((,class (:foreground ,classname))))
-   `(tree-sitter-hl-face:constant ((,class (:foreground ,number))))
-   `(tree-sitter-hl-face:string ((,class (:foreground ,string :background ,string-bg))))
-   `(tree-sitter-hl-face:comment ((,class (:foreground ,comment :slant italic))))
-   `(tree-sitter-hl-face:variable ((,class (:foreground ,symbol))))
-   `(tree-sitter-hl-face:function ((,class (:foreground ,function))))
-   `(tree-sitter-hl-face:function.call ((,class (:foreground ,function))))
-   `(tree-sitter-hl-face:operator ((,class (:foreground ,keyword))))
-   `(tree-sitter-hl-face:punctuation ((,class (:foreground ,cbracket))))
+   ;; Treesit faces
+   `(treesit-font-lock-keyword-face ((,class (:foreground ,keyword))))
+   `(treesit-font-lock-type-face ((,class (:foreground ,type))))
+   `(treesit-font-lock-constant-face ((,class (:foreground ,number))))
+   `(treesit-font-lock-string-face ((,class (:foreground ,string :background ,string-bg))))
+   `(treesit-font-lock-comment-face ((,class (:foreground ,comment :slant italic))))
+   `(treesit-font-lock-variable-name-face ((,class (:foreground ,symbol))))
+   `(treesit-font-lock-function-name-face ((,class (:foreground ,function))))
+   `(treesit-font-lock-function-call-face ((,class (:foreground ,function))))
+   `(treesit-font-lock-operator-face ((,class (:foreground ,keyword))))
+   `(treesit-font-lock-punctuation-face ((,class (:foreground ,cbracket))))
+   `(treesit-font-lock-property-face ((,class (:foreground ,symbol))))
+   `(treesit-font-lock-number-face ((,class (:foreground ,number))))
+   `(treesit-font-lock-literal-face ((,class (:foreground ,number))))
+   `(treesit-font-lock-constructor-face ((,class (:foreground ,classname))))
+   `(treesit-font-lock-builtin-face ((,class (:foreground ,keyword))))
+   `(treesit-font-lock-bracket-face ((,class (:foreground ,cbracket))))
+   `(treesit-font-lock-delimiter-face ((,class (:foreground ,cbracket))))
+   `(treesit-font-lock-escape-face ((,class (:foreground ,specialchar))))
 
    ;; Additional syntax faces
    `(escape-glyph ((,class (:foreground ,specialchar))))
@@ -104,17 +110,13 @@
    `(treemacs-term-node-face ((,class (:foreground ,function))))
    `(treemacs-tags-face ((,class (:foreground ,symbol))))
 
-   ;; Additional Tree-sitter faces for JavaScript
-   `(tree-sitter-hl-face:property ((,class (:foreground ,symbol))))
-   `(tree-sitter-hl-face:method ((,class (:foreground ,function))))
-   `(tree-sitter-hl-face:method.call ((,class (:foreground ,function))))
-   `(tree-sitter-hl-face:variable.parameter ((,class (:foreground ,specialchar))))
-   `(tree-sitter-hl-face:variable.builtin ((,class (:foreground ,keyword))))
-   `(tree-sitter-hl-face:constructor ((,class (:foreground ,classname))))
-   `(tree-sitter-hl-face:number ((,class (:foreground ,number))))
-   `(tree-sitter-hl-face:variable.special ((,class (:foreground ,specialchar))))
-   `(tree-sitter-hl-face:operator ((,class (:foreground ,keyword))))
-   
+   ;; Buffer border colors
+   `(fringe ((,class (:background ,minibuffer-bg))))  
+   `(vertical-border ((,class (:background ,bg :foreground ,bg))))  
+   `(window-divider ((,class (:foreground ,bg))))  
+   `(window-divider-first-pixel ((,class (:foreground ,bg))))
+   `(window-divider-last-pixel ((,class (:foreground ,bg))))
+
    ;; Minibuffer
    `(minibuffer-prompt ((,class (:foreground ,keyword :weight bold)))))
 
