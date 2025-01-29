@@ -103,6 +103,7 @@ alias et='emacsclient -t -a ""'
 alias ls='ls --color=auto --ignore="*~"'
 alias ll='ls -l --color=auto --ignore="*~"'
 
+eval "$(rbenv init -)"
 
 # User configuration
 
