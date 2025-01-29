@@ -69,7 +69,7 @@
    `(treesit-font-lock-function-call-face ((,class (:foreground ,function))))
    `(treesit-font-lock-operator-face ((,class (:foreground ,keyword))))
    `(treesit-font-lock-punctuation-face ((,class (:foreground ,cbracket))))
-   `(treesit-font-lock-property-face ((,class (:foreground ,symbol))))
+   `(treesit-font-lock-property-face ((,class (:foreground ,classname))))
    `(treesit-font-lock-number-face ((,class (:foreground ,number))))
    `(treesit-font-lock-literal-face ((,class (:foreground ,usertype))))
    `(treesit-font-lock-literal-face ((,class (:foreground ,number))))
