@@ -474,6 +474,10 @@
   :ensure nil
   :hook (after-init . savehist-mode))
 
+(use-package elisp-mode
+  :bind (:map emacs-lisp-mode-map
+              ("C-<return>" . eval-buffer)))
+
 ;; (add-to-list 'load-path "~/code/aitocomplete/")
 ;; (require 'llm-autocomplete)
 ;; (add-hook 'prog-mode-hook 'llm-autocomplete-mode)
