@@ -146,7 +146,10 @@
   :custom
   (python-indent-offset 4)
   (python-shell-interpreter "python3")
-  (indent-tabs-mode nil))
+  (indent-tabs-mode nil)
+  :bind (:map python-ts-mode-map
+              ("C-<return>" . python-shell-send-buffer)))
+
 
 (use-package async
   :ensure t)
@@ -471,6 +474,6 @@
   :ensure nil
   :hook (after-init . savehist-mode))
 
-(add-to-list 'load-path "~/code/aitocomplete/")
-(require 'llm-autocomplete)
-(add-hook 'prog-mode-hook 'llm-autocomplete-mode)
+;; (add-to-list 'load-path "~/code/aitocomplete/")
+;; (require 'llm-autocomplete)
+;; (add-hook 'prog-mode-hook 'llm-autocomplete-mode)
