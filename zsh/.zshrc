@@ -93,7 +93,7 @@ stty eof '^Q'
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git rbenv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,7 +103,9 @@ alias et='emacsclient -t -a ""'
 alias ls='ls --color=auto --ignore="*~"'
 alias ll='ls -l --color=auto --ignore="*~"'
 
+export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
 
 # User configuration
 

@@ -49,13 +49,15 @@
 ;; tab width
 (setq-default tab-width 4)
 
-;; use shift to move between buffers
-(windmove-default-keybindings)
-
 ;; removing menu bar and scroll bar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+
+(set-frame-parameter nil 'internal-border-width 0)
+(setq window-divider-default-places 'all) ; or 'all for all sides
+(setq window-divider-default-right-width 2)
+(window-divider-mode 1)
 
 ;; change default buffer to Scratch
 (setq initial-buffer-choice t)
@@ -213,6 +215,13 @@
 
 ;; makes tab play nicely with org-mode
 (setq evil-want-C-i-jump nil) ;; prevents TAB from being bound to evil-jump-forward
+
+;; (windmove-default-keybindings)
+;; evil-style binds with Meta as leader
+(define-key evil-normal-state-map (kbd "M-h") 'windmove-left)
+(define-key evil-normal-state-map (kbd "M-j") 'windmove-down)
+(define-key evil-normal-state-map (kbd "M-k") 'windmove-up)
+(define-key evil-normal-state-map (kbd "M-l") 'windmove-right)
 
 (evil-define-key 'normal org-mode-map
   (kbd "M-h") 'org-metaleft
@@ -479,5 +488,7 @@
               ("C-<return>" . eval-buffer)))
 
 ;; (add-to-list 'load-path "~/code/aitocomplete/")
-;; (require 'llm-autocomplete)
+;; (require 'company-llm)
+;; (company-llm-setup)
 ;; (add-hook 'prog-mode-hook 'llm-autocomplete-mode)
+;; (add-hook 'completion-at-point-functions #'llm-autocomplete-complete-at-point)

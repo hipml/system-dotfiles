@@ -114,10 +114,10 @@
 
    ;; Buffer border colors
    `(fringe ((,class (:background ,minibuffer-bg))))  
-   `(vertical-border ((,class (:background ,bg :foreground ,bg))))  
-   `(window-divider ((,class (:foreground ,bg))))  
-   `(window-divider-first-pixel ((,class (:foreground ,bg))))
-   `(window-divider-last-pixel ((,class (:foreground ,bg))))
+   `(vertical-border ((,class (:background ,minibuffer-active-bg :foreground ,minibuffer-active-bg))))  
+   `(window-divider ((,class (:foreground ,minibuffer-active-bg))))  
+   `(window-divider-first-pixel ((,class (:foreground ,minibuffer-active-bg))))
+   `(window-divider-last-pixel ((,class (:foreground ,minibuffer-active-bg))))
 
    ;; Minibuffer
    `(minibuffer-prompt ((,class (:foreground ,keyword :weight bold)))))
