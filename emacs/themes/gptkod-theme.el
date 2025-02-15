@@ -9,7 +9,6 @@
       (selection-bg "#2F3F52")
       (column-guide "#444")
       
-      ;; Syntax colors from user's CSS
       (keyword "#66c8ef")
       (type "#ffa07a")
       (usertype "#CAC059")
@@ -29,7 +28,6 @@
       (cbracket "#ddd")
       (todo "#946B57")
       
-      ;; UI colors
       (minibuffer-bg "#333")
       (minibuffer-active-bg "#444"))
 

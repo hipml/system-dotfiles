@@ -80,6 +80,13 @@
 (setq treesit-font-lock-level 4)
 (setq treesit-extra-load-path '("~/.emacs.d/tree-sitter/"))
 
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (tresit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+
 ;; org mode 
 (use-package org
   :custom
