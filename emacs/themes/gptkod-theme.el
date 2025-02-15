@@ -117,6 +117,11 @@
    `(window-divider-first-pixel ((,class (:foreground ,minibuffer-active-bg))))
    `(window-divider-last-pixel ((,class (:foreground ,minibuffer-active-bg))))
 
+   ;; Line numbers
+   `(fringe ((,class (:background ,minibuffer-active-bg)))) ;; Border color #444
+   `(line-number ((,class (:background ,minibuffer-bg :foreground ,comment)))) ;; Background #333
+   `(line-number-current-line ((,class (:background ,minibuffer-bg :foreground ,fg :weight bold)))) 
+
    ;; Minibuffer
    `(minibuffer-prompt ((,class (:foreground ,keyword :weight bold)))))
 
