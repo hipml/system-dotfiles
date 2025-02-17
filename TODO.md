@@ -1,1 +1,0 @@
-https://1password.community/discussion/142794/app-and-browser-integration
