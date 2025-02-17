@@ -49,7 +49,7 @@
    `(font-lock-keyword-face ((,class (:foreground ,keyword))))
    `(font-lock-negation-char-face ((,class (:foreground ,keyword))))
    `(font-lock-preprocessor-face ((,class (:foreground ,preproc))))
-   `(font-lock-string-face ((,class (:foreground ,string))))
+   `(font-lock-string-face ((,class (:foreground ,string :background ,string-bg))))
    `(font-lock-variable-name-face ((,class (:foreground ,symbol))))
    `(font-lock-variable-use-face ((,class (:foreground ,preproc))))
    `(font-lock-warning-face ((,class (:foreground ,todo :weight bold))))
