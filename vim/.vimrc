@@ -1,5 +1,5 @@
 syntax on
 set termguicolors
 set nu
-colorscheme kod-adapted
+colorscheme gptkod
 set background=dark
