@@ -41,7 +41,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
 ;; load my theme
-(load-theme 'gptkod t)
+(load-theme 'kodly t)
 
 ;; set line wrapping
 (setq-default truncate-lines t)
@@ -72,7 +72,6 @@
 ;; emoji font? C-x 8 RET
 (set-fontset-font t 'symbol "Noto Color Emoji")
 
-
 ;; tree sitter for pretty syntax highlighting 
 (require 'treesit)
 (global-font-lock-mode t)
@@ -84,7 +83,7 @@
   :custom
   (treesit-auto-install 'prompt)
   :config
-  (tresit-auto-add-to-auto-mode-alist 'all)
+  (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
 ;; org mode 
@@ -472,8 +471,12 @@
   (setq imenu-list-position 'right
         imenu-list-size 35))
 
+(use-package compat
+  :ensure t)
+
 (use-package vertico
   :ensure t
+  :after compat
   :hook (after-init . vertico-mode))
 
 (use-package orderless
@@ -484,6 +487,7 @@
 
 (use-package marginalia
   :ensure t
+  :after compat
   :hook (after-init . marginalia-mode))
 
 (use-package savehist
