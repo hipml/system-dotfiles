@@ -3,9 +3,18 @@
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export LIBVA_DRIVER_NAME=iHD
 export GDK_BACKEND=wayland
 export QT_QPA_PLATFORM=xcb
+
+if [[ "$(hostname)" == "archon" ]]; then
+    # NVIDIA setup
+    export VDPAU_DRIVER=nvidia
+    export LIBVA_DRIVER_NAME=nvidia
+else
+    # Intel setup
+    export VDPAU_DRIVER=va_gl
+    export LIBVA_DRIVER_NAME=iHD
+fi
 
 export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 
@@ -24,7 +33,9 @@ export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
 ZSH_THEME="robbyrussell"
 
 # ruby gem management
-export GEM_HOME="$(gem env user_gemhome)"
+# export GEM_HOME="$(gem env user_gemhome)"
+export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+export GEM_PATH="$GEM_HOME"
 export PATH="$PATH:$GEM_HOME/bin"
 
 
