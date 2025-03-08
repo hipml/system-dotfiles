@@ -6,7 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export GDK_BACKEND=wayland
 export QT_QPA_PLATFORM=xcb
 
-if [[ "$(hostname)" == "archon" ]]; then
+if [[ "$HOST" == "archon" ]]; then
     # NVIDIA setup
     export VDPAU_DRIVER=nvidia
     export LIBVA_DRIVER_NAME=nvidia
