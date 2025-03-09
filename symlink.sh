@@ -15,6 +15,7 @@ LINKS_COMMON=(
     "$DOTFILES_DIR/kernel/disable_watchdog.conf:/etc/sysctl.d/disable_watchdog.conf"
     "$DOTFILES_DIR/services/reflector.service:/etc/systemd/system/reflector.service"
     "$DOTFILES_DIR/services/reflector.timer:/etc/systemd/system/reflector.timer"
+    "$DOTFILES_DIR/kitty/kitty.conf:$HOME/.config/kitty/kitty.conf"
 )
 
 # specific files for Thinkpad T480
@@ -34,7 +35,6 @@ elif [ "$(uname -n)" = "Archon" ]; then
     )
 fi
 
-
 LINKS=("${LINKS_COMMON[@]}" "${LINKS[@]}")
 
 for theme_file in "$DOTFILES_DIR/emacs/themes/"*.el; do
@@ -45,9 +45,25 @@ done
 create_symlink() {
     local SRC="$1"
     local DEST="$2"
+    
+    # check if DEST is already a symlink pointing to the correct SRC
+    if [ -L "$DEST" ]; then
+        local current_target
+        if [[ "$DEST" == /etc/* ]]; then
+            current_target=$(sudo readlink "$DEST")
+        else
+            current_target=$(readlink "$DEST")
+        fi
+        
+        if [ "$current_target" = "$SRC" ]; then
+            echo "✓ Link already exists and is correct: $DEST -> $SRC"
+            return 0
+        fi
+    fi
 
+    # if we get here, either the symlink doesn't exist or points somewhere else
     if [ -e "$DEST" ] || [ -L "$DEST" ]; then
-        echo "Backing up existing $DEST"
+        echo "⚠ Backing up existing $DEST"
         if [[ "$DEST" == /etc/* ]]; then
             sudo mv "$DEST" "$DEST.backup.$(date +%Y%m%d%H%M%S)"
         else
@@ -62,7 +78,7 @@ create_symlink() {
         mkdir -p "$(dirname "$DEST")"
         ln -s "$SRC" "$DEST"
     fi
-    echo "Linked $SRC to $DEST"
+    echo "✓ Created link: $DEST -> $SRC"
 }
 
 for link in "${LINKS[@]}"; do
@@ -71,3 +87,5 @@ for link in "${LINKS[@]}"; do
 
     create_symlink "$SRC" "$DEST"
 done
+
+echo "✓ Dotfiles setup complete!"
