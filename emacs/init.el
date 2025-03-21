@@ -285,7 +285,7 @@
   :mode ("\\.tex\\'" . LaTeX-mode)
   :hook ((LaTeX-mode . reftex-mode)
          (LaTeX-mode . prettify-symbols-mode)
-		 (LaTeX-mode . visual-line-mode))
+		     (LaTeX-mode . visual-line-mode))
   :custom
   (TeX-engine 'xetex)
   (TeX-PDF-mode t)
@@ -305,7 +305,7 @@
                  '("LaTeXMk" "latexmk -pdf %s" TeX-run-TeX nil t
                    :help "Run LatexMk"))
     ;; make it default
-    (TeX-command-default "LaTeXMk")))
+    (setq TeX-command-default "LaTeXMk")))
 
 (defun hipml/latex-pdf-view (process)
   "Open the PDF after successful latex compilation... hopefully"
