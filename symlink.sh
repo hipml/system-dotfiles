@@ -8,7 +8,6 @@ LINKS_COMMON=(
     "$DOTFILES_DIR/vim/init.lua:$HOME/.config/nvim/init.lua"
     "$DOTFILES_DIR/vim/colors:$HOME/.vim/colors"
     "$DOTFILES_DIR/zsh/.zshrc:$HOME/.zshrc"
-    "$DOTFILES_DIR/hooks/code-product-json.hook:/etc/pacman.d/hooks/code-product-json.hook"
     "$DOTFILES_DIR/services/my-bluetooth-fix.service:/etc/systemd/system/my-bluetooth-fix.service"
     "$DOTFILES_DIR/sddm/sddm.conf:/etc/sddm.conf"
     "$DOTFILES_DIR/sddm/10-wayland.conf:/etc/sddm.conf.d/10-wayland.conf"
