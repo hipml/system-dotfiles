@@ -1,12 +1,10 @@
 [Unit]
-Description=Bluetooth fix for btusb issue
-After=graphical.target
+Description=Fix Bluetooth after resume
+After=suspend.target hibernate.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/rmmod btusb
-ExecStartPost=/usr/bin/modprobe btusb
-RemainAfterExit=true
+ExecStart=/bin/sh -c "systemctl restart bluetooth && rmmod btusb && sleep 1 && modprobe btusb"
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=suspend.target hibernate.target
